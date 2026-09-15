@@ -1,19 +1,52 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
+#include <ctype.h>
+#include <string.h>
 #include "SatComRelay.h"
+
+void scanMap() {
+    printf("\n")
+}
+char scanfErrorHandle() {   //trying to use fgets instead of scanf
+    char answer[10];
+    fgets(answer, sizeof(answer), stdin);
+    if(isalpha(answer[0])) {    //checks if its a number,special character or even a spacebar
+        // printf("%c",answer[0]);
+        return answer[0];
+    }
+    else if(answer[1] != '\n') { //check if user keyed in multiple inputs
+        printf("Key in only one input");
+        return '\0';
+    }
+    else {
+        printf("invalid input!");
+        return '\0';
+    }
+}
+
+int scanInt(){
+    char digit[10];  
+    long int num;     
+    fgets(digit, sizeof(digit), stdin);
+    num = atoi(digit);
+    return num;
+}
 
 VehDataType initVehicle() {
     char scenarioFile[256];
-    char answer;
+    char answer ='\0'; //cannot start with unknown 
     bool isFileEncrypted;
     bool randomizeStartPosition;
     int missionType;
 
     printf("\n\nPlease enter the scenario file's name:\t");
-    scanf("%255s", scenarioFile);
+    fgets(scenarioFile, sizeof(scenarioFile), stdin);
+    scenarioFile[strcspn(scenarioFile, "\n")] = '\0';   //need remove \n
 
     printf("\n\nIs the scenario file encrypted?\t(y/n): ");
-    scanf(" %c", &answer);
+    answer = scanfErrorHandle();
 
     if (answer == 'y' || answer == 'Y')
         isFileEncrypted = true;
@@ -21,7 +54,7 @@ VehDataType initVehicle() {
         isFileEncrypted = false;
 
     printf("\n\nDo you wish to randomize start position?\t(y/n): ");
-    scanf(" %c", &answer);
+    answer = scanfErrorHandle();
 
     if (answer == 'y' || answer == 'Y')
         randomizeStartPosition = true;
@@ -39,7 +72,7 @@ VehDataType initVehicle() {
     printf("8. Map Everything\n");
 
     printf("\nEnter your choice (1-8): ");
-    scanf("%d", &missionType);
+    missionType = scanInt();
 
     printf("\n\nfilenname : %s, isFileEncrypted : %d, randomizeStartPosition : %d\n", scenarioFile, isFileEncrypted, randomizeStartPosition);
 
@@ -51,8 +84,7 @@ VehDataType initVehicle() {
     );
 }
 
-int showUsageInstructions(void)
-{
+int showUsageInstructions(void) {
     char answer ='\0'; //cannot start with unknown 
     printf("\n");
     printf("========================================\n");
@@ -81,7 +113,7 @@ int showUsageInstructions(void)
 
     while (answer != 'y' && answer != 'Y') {    //Neither y or Y
         printf("\nPress 'y' key and hit Enter to continue! ");
-        scanf(" %c", &answer);
+        answer = scanfErrorHandle();
     }
     return 0;
 }
@@ -89,13 +121,14 @@ int showUsageInstructions(void)
 int main(void) {
     VehDataType vehicleData = initVehicle();
     showUsageInstructions();
-    char answer;
+    char answer[10];
     bool radiusBoolOne = true;          //default use case is 1
-    while (answer != 'q' && answer != 'Q')
+    while (answer[0] != 'q' && answer[0] != 'Q')
     {
-        printf("\nEnter your command (q to quit) :");
-        scanf(" %c", &answer);
-        switch (answer) {
+        printf("\n\nEnter your command (q to quit) :");
+        fgets(answer, sizeof(answer), stdin);   //fix the error handling one day
+        
+        switch (answer[0]) {
         case 'w':           
         case 'W':           //Movement
             VehDataType SCRelay_Signal_Veh_MoveUpNorth();
@@ -112,62 +145,73 @@ int main(void) {
         case 'D':
             VehDataType SCRelay_Signal_Veh_MoveRightEast();
             break;
-        case '1':           //Scan *needs to have printf
+        case '1':    
             if (radiusBoolOne) {
-                char SCRelay_Signal_Veh_ScanSouthWest(VehDataType *vdt);
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanSouthWest(&vehicleData));
             } else {
-                char SCRelay_Signal_Veh_ScanSouthWest2(VehDataType *vdt);
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanSouthWest2(&vehicleData));
             }
             break;
-        case '2':
+
+        case '2':         
             if (radiusBoolOne) {
-                char SCRelay_Signal_Veh_ScanSouth(VehDataType *vdt);
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanSouth(&vehicleData));
             } else {
-                char SCRelay_Signal_Veh_ScanSouth2(VehDataType *vdt);
-            }
-            break;               
-        case '3':
-            if (radiusBoolOne) {
-                char SCRelay_Signal_Veh_ScanSouthEast(VehDataType *vdt);
-            } else {
-                char SCRelay_Signal_Veh_ScanSouthEast2(VehDataType *vdt);
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanSouth2(&vehicleData));
             }
             break;
-        case '4':
+
+        case '3':     
             if (radiusBoolOne) {
-                char SCRelay_Signal_Veh_ScanWest(VehDataType *vdt);
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanSouthEast(&vehicleData));
             } else {
-                char SCRelay_Signal_Veh_ScanWest2(VehDataType *vdt);
-            }        
-            break;
-        case '6':
-            if (radiusBoolOne) {
-                char SCRelay_Signal_Veh_ScanEast(VehDataType *vdt);
-            } else {
-                char SCRelay_Signal_Veh_ScanEast2(VehDataType *vdt);
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanSouthEast2(&vehicleData));
             }
             break;
-        case '7':
+
+        case '4':         
             if (radiusBoolOne) {
-                char SCRelay_Signal_Veh_ScanNorthWest(VehDataType *vdt);
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanWest(&vehicleData));
             } else {
-                char SCRelay_Signal_Veh_ScanNorthWest2(VehDataType *vdt);
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanWest2(&vehicleData));
             }
             break;
-        case '8':
+
+        case '5':        
+            printf("Current vehicle position.\n");
+            break;
+
+        case '6':          
             if (radiusBoolOne) {
-                char SCRelay_Signal_Veh_ScanNorth (VehDataType * vdt);
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanEast(&vehicleData));
             } else {
-                char SCRelay_Signal_Veh_ScanNorth2 (VehDataType * vdt);
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanEast2(&vehicleData));
             }
             break;
-        case '9':
+
+        case '7':           
             if (radiusBoolOne) {
-                char SCRelay_Signal_Veh_ScanNorthEast(VehDataType *vdt);
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanNorthWest(&vehicleData));
             } else {
-                char SCRelay_Signal_Veh_ScanNorthEast2(VehDataType *vdt);
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanNorthWest2(&vehicleData));
             }
-            break;         
+            break;
+
+        case '8':          
+            if (radiusBoolOne) {
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanNorth(&vehicleData));
+            } else {
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanNorth2(&vehicleData));
+            }
+            break;
+
+        case '9':           
+            if (radiusBoolOne) {
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanNorthEast(&vehicleData));
+            } else {
+                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanNorthEast2(&vehicleData));
+            }
+            break;     
         case 't':
         case 'T':           //Scan Radius
             radiusBoolOne = !radiusBoolOne;
@@ -175,12 +219,28 @@ int main(void) {
             break;
         case 'i':
         case 'I':           //energyShield
-            VehDataType SCRelay_Signal_Veh_AllocateToShield (long amountOfEnergy);
-            //this needs to have error checking
+        {                   //block
+            double amountOfEnergy;      //change to double to handle decimel error handling
+            printf("\nEnter amt. of energy to increase / allocate to shield ( 1 to %ld ) :",vehicleData.currEnergy);
+            if (scanf("%lf", &amountOfEnergy) != 1)
+            {
+                printf("\nThat's not a number!\n");
+            }
+            else if(floor(amountOfEnergy) != amountOfEnergy || amountOfEnergy <= 0) {
+                printf("\nError: Energy Allocation must be in whole numbers!\n");
+            }
+            else if (amountOfEnergy > vehicleData.currEnergy) {
+                printf("\nError: Insufficient energy reserves, Try reducing the quant allocated to shield!\n");
+            }
+            else {
+            SCRelay_Signal_Veh_AllocateToShield (amountOfEnergy);
+            }
             break;
+        }
         case 'z':
         case 'Z':           //vehicleStatus
-            // code block
+            printf("\nVehicle Status / Statistics :\n");
+            printf("\nInitial Enenrgy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
             break;
         case 'c':
         case 'C':           //Map o terrain scan
@@ -196,7 +256,7 @@ int main(void) {
             break;              
         case 'v':
         case 'V':           //Intruction
-            // code block
+            showUsageInstructions();
             break; 
         default:            //Error handle
             // code block
