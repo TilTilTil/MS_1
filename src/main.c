@@ -7,7 +7,7 @@
 #include "SatComRelay.h"
 
 void scanMap() {
-    printf("\n")
+    printf("\n");
 }
 char scanfErrorHandle() {   //trying to use fgets instead of scanf
     char answer[10];
@@ -177,10 +177,6 @@ int main(void) {
             }
             break;
 
-        case '5':        
-            printf("Current vehicle position.\n");
-            break;
-
         case '6':          
             if (radiusBoolOne) {
                 printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanEast(&vehicleData));
@@ -215,7 +211,7 @@ int main(void) {
         case 't':
         case 'T':           //Scan Radius
             radiusBoolOne = !radiusBoolOne;
-            //need to have a printf use if else instead
+            //need to have a printf so use an if else instead
             break;
         case 'i':
         case 'I':           //energyShield
