@@ -4,7 +4,9 @@
 #include <math.h>
 #include <ctype.h>
 #include <string.h>
+
 #include "SatComRelay.h"
+#include "mapMake.h"
 
 void scanMap() {
     printf("\n");
@@ -26,61 +28,66 @@ char scanfErrorHandle() {   //trying to use fgets instead of scanf
     }
 }
 
-int scanInt(){
-    char digit[10];  
-    long int num;     
-    fgets(digit, sizeof(digit), stdin);
-    num = atoi(digit);
-    return num;
-}
+// VehDataType initVehicle() {
+//     char scenarioFile[256];
+//     char answer ='\0'; //cannot start with unknown 
+//     bool isFileEncrypted;
+//     bool randomizeStartPosition;
+//     int missionType;
+
+//     printf("\n\nPlease enter the scenario file's name:\t");
+//     fgets(scenarioFile, sizeof(scenarioFile), stdin);
+//     scenarioFile[strcspn(scenarioFile, "\n")] = '\0';   //need remove \n
+
+//     printf("\n\nIs the scenario file encrypted?\t(y/n): ");
+//     answer = scanfErrorHandle();
+
+//     if (answer == 'y' || answer == 'Y')
+//         isFileEncrypted = true;
+//     else
+//         isFileEncrypted = false;
+
+//     printf("\n\nDo you wish to randomize start position?\t(y/n): ");
+//     answer = scanfErrorHandle();
+
+//     if (answer == 'y' || answer == 'Y')
+//         randomizeStartPosition = true;
+//     else
+//         randomizeStartPosition = false;
+
+//     printf("\nSelect mission:\n");
+//     printf("1. Casual Explore\n");
+//     printf("2. Find 1 End Point\n");
+//     printf("3. Reach 1 End Point\n");
+//     printf("4. Find All End Points\n");
+//     printf("5. Reach ALL End Points\n");
+//     printf("6. Find ALL Danger Points\n");
+//     printf("7. Find Map Boundaries\n");
+//     printf("8. Map Everything\n");
+
+//     printf("\nEnter your choice (1-8): ");
+//     char digit[10];  
+//     int num;     
+//     fgets(digit, sizeof(digit), stdin);
+//     num = strtold(digit, NULL);
+//     missionType = num;
+
+//     printf("\n\nfilenname : %s, isFileEncrypted : %d, randomizeStartPosition : %d\n", scenarioFile, isFileEncrypted, randomizeStartPosition);
+
+//     return SCRelay_Signal_Veh_Init(
+//         scenarioFile,
+//         isFileEncrypted,
+//         randomizeStartPosition,
+//         missionType
+//     );
+// }
 
 VehDataType initVehicle() {
-    char scenarioFile[256];
-    char answer ='\0'; //cannot start with unknown 
-    bool isFileEncrypted;
-    bool randomizeStartPosition;
-    int missionType;
-
-    printf("\n\nPlease enter the scenario file's name:\t");
-    fgets(scenarioFile, sizeof(scenarioFile), stdin);
-    scenarioFile[strcspn(scenarioFile, "\n")] = '\0';   //need remove \n
-
-    printf("\n\nIs the scenario file encrypted?\t(y/n): ");
-    answer = scanfErrorHandle();
-
-    if (answer == 'y' || answer == 'Y')
-        isFileEncrypted = true;
-    else
-        isFileEncrypted = false;
-
-    printf("\n\nDo you wish to randomize start position?\t(y/n): ");
-    answer = scanfErrorHandle();
-
-    if (answer == 'y' || answer == 'Y')
-        randomizeStartPosition = true;
-    else
-        randomizeStartPosition = false;
-
-    printf("\nSelect mission:\n");
-    printf("1. Casual Explore\n");
-    printf("2. Find 1 End Point\n");
-    printf("3. Reach 1 End Point\n");
-    printf("4. Find All End Points\n");
-    printf("5. Reach ALL End Points\n");
-    printf("6. Find ALL Danger Points\n");
-    printf("7. Find Map Boundaries\n");
-    printf("8. Map Everything\n");
-
-    printf("\nEnter your choice (1-8): ");
-    missionType = scanInt();
-
-    printf("\n\nfilenname : %s, isFileEncrypted : %d, randomizeStartPosition : %d\n", scenarioFile, isFileEncrypted, randomizeStartPosition);
-
     return SCRelay_Signal_Veh_Init(
-        scenarioFile,
-        isFileEncrypted,
-        randomizeStartPosition,
-        missionType
+        "scenario/scenario.dat",
+        'y',
+        'y',
+        '8'
     );
 }
 
@@ -120,8 +127,16 @@ int showUsageInstructions(void) {
 
 int main(void) {
     VehDataType vehicleData = initVehicle();
+    char scanMap[HEIGHT][WIDTH];
+    char exploreMap[HEIGHT][WIDTH];
+    VehPosType vehPos;
+    vehPos.x = WIDTH/2;
+    vehPos.y = HEIGHT/2;
+    mapMake(scanMap, vehPos);
+    mapMake(exploreMap, vehPos);
+
     showUsageInstructions();
-    char answer[10];
+    char answer[10] = "";
     bool radiusBoolOne = true;          //default use case is 1
     while (answer[0] != 'q' && answer[0] != 'Q')
     {
@@ -131,83 +146,127 @@ int main(void) {
         switch (answer[0]) {
         case 'w':           
         case 'W':           //Movement
-            VehDataType SCRelay_Signal_Veh_MoveUpNorth();
+            vehicleData = SCRelay_Signal_Veh_MoveUpNorth();
+            printf("%d",vehPos.x);
+            vehPos.x = vehPos.x + 1;
+            printf("%d",vehPos.x);
+            printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
             break;
         case 's':
         case 'S':
-            VehDataType SCRelay_Signal_Veh_MoveDownSouth();
+            vehicleData = SCRelay_Signal_Veh_MoveDownSouth();
+            vehPos.x = vehPos.x - 1;
+            printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
             break;
         case 'a':
         case 'A':
-            VehDataType SCRelay_Signal_Veh_MoveLeftWest();
+            vehicleData = SCRelay_Signal_Veh_MoveLeftWest();
+            vehPos.y = vehPos.y + 1;
+            printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
             break;
         case 'd':
         case 'D':
-            VehDataType SCRelay_Signal_Veh_MoveRightEast();
+            vehicleData = SCRelay_Signal_Veh_MoveRightEast();
+            vehPos.y = vehPos.y - 1;
+            printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
             break;
+            
         case '1':    
             if (radiusBoolOne) {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanSouthWest(&vehicleData));
+                char value1 = SCRelay_Signal_Veh_ScanSouthWest(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value1);
+                printMapScan(scanMap, vehPos, -1, -1, value1);
             } else {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanSouthWest2(&vehicleData));
+                char value2 = SCRelay_Signal_Veh_ScanSouthWest2(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value2);
+                printMapScan(scanMap, vehPos, -2, -2, value2);
             }
             break;
 
         case '2':         
             if (radiusBoolOne) {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanSouth(&vehicleData));
+                char value1 = SCRelay_Signal_Veh_ScanSouth(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value1);
+                printMapScan(scanMap, vehPos, -1, 0, value1);
             } else {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanSouth2(&vehicleData));
+                char value2 = SCRelay_Signal_Veh_ScanSouth2(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value2);
+                printMapScan(scanMap, vehPos, -2, 0, value2);
             }
             break;
 
         case '3':     
             if (radiusBoolOne) {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanSouthEast(&vehicleData));
+                char value1 = SCRelay_Signal_Veh_ScanSouthEast(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value1);
+                printMapScan(scanMap, vehPos, -1, 1, value1);
             } else {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanSouthEast2(&vehicleData));
+                char value2 = SCRelay_Signal_Veh_ScanSouthEast2(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value2);
+                printMapScan(scanMap, vehPos, -2, 2, value2);
             }
             break;
 
         case '4':         
             if (radiusBoolOne) {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanWest(&vehicleData));
+                char value1 = SCRelay_Signal_Veh_ScanWest(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value1);
+                printMapScan(scanMap, vehPos, 0, -1, value1);
             } else {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanWest2(&vehicleData));
+                char value2 = SCRelay_Signal_Veh_ScanWest2(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value2);
+                printMapScan(scanMap, vehPos, 0, -2, value2);
             }
             break;
 
         case '6':          
             if (radiusBoolOne) {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanEast(&vehicleData));
+                char value1 = SCRelay_Signal_Veh_ScanEast(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value1);
+                printMapScan(scanMap, vehPos, 0, 1, value1);
             } else {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanEast2(&vehicleData));
+                char value2 = SCRelay_Signal_Veh_ScanEast2(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value2);
+                printMapScan(scanMap, vehPos, 0, 2, value2);
             }
             break;
 
         case '7':           
             if (radiusBoolOne) {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanNorthWest(&vehicleData));
+                char value1 = SCRelay_Signal_Veh_ScanNorthWest(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value1);
+                printMapScan(scanMap, vehPos, 1, -1, value1);
             } else {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanNorthWest2(&vehicleData));
+                char value2 = SCRelay_Signal_Veh_ScanNorthWest2(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value2);
+                printMapScan(scanMap, vehPos, 2, -2, value2);
             }
             break;
 
         case '8':          
             if (radiusBoolOne) {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanNorth(&vehicleData));
+                char value1 = SCRelay_Signal_Veh_ScanNorth(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value1);
+                printMapScan(scanMap, vehPos, 1, 0, value1);
             } else {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanNorth2(&vehicleData));
+                char value2 = SCRelay_Signal_Veh_ScanNorth2(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value2);
+                printMapScan(scanMap, vehPos, 2, 0, value2);
             }
             break;
 
         case '9':           
             if (radiusBoolOne) {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanNorthEast(&vehicleData));
+                char value1 = SCRelay_Signal_Veh_ScanNorthEast(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value1);
+                printMapScan(scanMap, vehPos, 1, 1, value1);
             } else {
-                printf("Returned (scanned) terrain symbol is : %c", SCRelay_Signal_Veh_ScanNorthEast2(&vehicleData));
+                char value2 = SCRelay_Signal_Veh_ScanNorthEast2(&vehicleData);
+                printf("Returned (scanned) terrain symbol is : %c", value2);
+                printMapScan(scanMap, vehPos, 2, 2, value2);
             }
-            break;     
+            break;
+
         case 't':
         case 'T':           //Scan Radius
             radiusBoolOne = !radiusBoolOne;
@@ -215,32 +274,34 @@ int main(void) {
             break;
         case 'i':
         case 'I':           //energyShield
-        {                   //block
-            double amountOfEnergy;      //change to double to handle decimel error handling
             printf("\nEnter amt. of energy to increase / allocate to shield ( 1 to %ld ) :",vehicleData.currEnergy);
-            if (scanf("%lf", &amountOfEnergy) != 1)
-            {
-                printf("\nThat's not a number!\n");
-            }
-            else if(floor(amountOfEnergy) != amountOfEnergy || amountOfEnergy <= 0) {
-                printf("\nError: Energy Allocation must be in whole numbers!\n");
-            }
-            else if (amountOfEnergy > vehicleData.currEnergy) {
-                printf("\nError: Insufficient energy reserves, Try reducing the quant allocated to shield!\n");
-            }
-            else {
-            SCRelay_Signal_Veh_AllocateToShield (amountOfEnergy);
-            }
+            char digit[10];  
+            long num;     
+            fgets(digit, sizeof(digit), stdin);
+            num = strtold(digit, NULL);
+            vehicleData = SCRelay_Signal_Veh_AllocateToShield (num);
+            // printf("\nEnter amt. of energy to increase / allocate to shield ( 1 to %ld ) :",vehicleData.currEnergy);
+            // if (scanf("%lf", &amountOfEnergy) != 1)
+            // {
+            //     printf("\nThat's not a number!\n");
+            // }
+            // else if(floor(amountOfEnergy) != amountOfEnergy || amountOfEnergy <= 0) {
+            //     printf("\nError: Energy Allocation must be in whole numbers!\n");
+            // }
+            // else if (amountOfEnergy > vehicleData.currEnergy) {
+            //     printf("\nError: Insufficient energy reserves, Try reducing the quant allocated to shield!\n");
+            // }
+            // else {
+            // SCRelay_Signal_Veh_AllocateToShield (amountOfEnergy);
+            // }
             break;
-        }
         case 'z':
         case 'Z':           //vehicleStatus
             printf("\nVehicle Status / Statistics :\n");
-            printf("\nInitial Enenrgy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
+            printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
             break;
         case 'c':
         case 'C':           //Map o terrain scan
-            // code block
             break;
         case 'x':
         case 'X':           //Map o terrain travelled
