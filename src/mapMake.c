@@ -7,7 +7,7 @@ int mapMake(char map[HEIGHT][WIDTH], VehPosType vehPos) {
             map[i][j] = '.';        //change to spacebar isntead of . later
         }
     }
-    map[vehPos.y][vehPos.x] = '_';
+    // map[vehPos.y][vehPos.x] = '_';
     return 0;
 }
 
@@ -15,16 +15,20 @@ int printMapScan(char map[HEIGHT][WIDTH], VehPosType vehPos, int posX, int posY,
     printf("\n================================\n");
     printf("          SCANNED MAP            \n");
     printf("================================\n\n");
-    map[(vehPos).y][(vehPos).x] = '.';  //delete OLD
-    map[(vehPos).y - posY][(vehPos).x - posX] = '_';  //create NEW
+    // map[(vehPos).y][(vehPos).x] = '_'; 
     map[vehPos.y - posY][vehPos.x - posX] = value;
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {
-            putchar(map[i][j]);
+            if(i == vehPos.y && j == vehPos.x) {
+                putchar('_');
+            }
+            else 
+                putchar(map[i][j]);
             putchar(' '); 
         }
         putchar('\n');
     }
+    // map[(vehPos).y][(vehPos).x] = '.'; 
     return 0;
 }
 

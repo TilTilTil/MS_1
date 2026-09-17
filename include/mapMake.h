@@ -9,6 +9,12 @@ typedef struct {
     int y;
 } VehPosType;
 
+typedef struct {
+    int x;
+    int y;
+    char value;
+} LocalTerrainType;
+
 int mapMake(char map[HEIGHT][WIDTH], 
             VehPosType vehPos);
 
