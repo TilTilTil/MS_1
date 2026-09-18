@@ -13,10 +13,10 @@ int mapMake(char map[HEIGHT][WIDTH], VehPosType vehPos) {
 
 int printMapScan(char map[HEIGHT][WIDTH], VehPosType vehPos, int posX, int posY, char value) {
     printf("\n================================\n");
-    printf("          SCANNED MAP            \n");
+    printf("          SCANNED MAP        N-->  \n");
     printf("================================\n\n");
     // map[(vehPos).y][(vehPos).x] = '_'; 
-    map[vehPos.y - posY][vehPos.x - posX] = value;
+    map[vehPos.y - posY][vehPos.x + posX] = value;
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {
             if(i == vehPos.y && j == vehPos.x) {

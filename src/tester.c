@@ -5,8 +5,8 @@
 #include <ctype.h>
 #include <string.h>
 
-#define HEIGHT 7
-#define WIDTH 25
+#define HEIGHT 10
+#define WIDTH 30
 
 typedef struct {
     int x;
@@ -103,27 +103,28 @@ int main() {
     // printf("Total Energy Used    : %ld\n", Veh.totEnergyUsed);
     // printf("Total Shield Used    : %ld\n", Veh.totShieldEnergyUsed);
 
-    char scanMap[HEIGHT][WIDTH];
-    char scanMap1[HEIGHT][WIDTH];
-    char exploreMap[HEIGHT][WIDTH];
-    VehPosType vehPos;
-    LocalTerrainType Terrain;
-    vehPos.x = WIDTH/2;
-    vehPos.y = HEIGHT/2;
-    Terrain.x = 1;
-    Terrain.y = 1;
-    Terrain.value = 'M';
-    mapMake(scanMap, vehPos);
-    mapMake(scanMap1, vehPos);
+    // char scanMap[HEIGHT][WIDTH];
+    // char scanMap1[HEIGHT][WIDTH];
+    // char exploreMap[HEIGHT][WIDTH];
+    // VehPosType vehPos;
+    // LocalTerrainType Terrain;
+    // vehPos.x = WIDTH/2;
+    // vehPos.y = HEIGHT/2;
+    // Terrain.x = 1;
+    // Terrain.y = 1;
+    // Terrain.value = 'M';
+    // mapMake(scanMap, vehPos);
+    // mapMake(scanMap1, vehPos);
 
-    printMapScan(scanMap, vehPos, Terrain);
-    vehPos.x = WIDTH/2;
-    vehPos.y = HEIGHT/2 -1;
-    Terrain.x = -1;
-    Terrain.y = 0;
-    Terrain.value = 'M';
-    printMapScan(scanMap, vehPos, Terrain);
+    // printMapScan(scanMap, vehPos, Terrain);
+    // vehPos.x = WIDTH/2;
+    // vehPos.y = HEIGHT/2 -1;
+    // Terrain.x = -1;
+    // Terrain.y = 0;
+    // Terrain.value = 'M';
+    // printMapScan(scanMap, vehPos, Terrain);
 
+    SCRelay_Signal_Veh_MoveUpNorth();
 
     // vehPos.x = WIDTH/2;
     // vehPos.y = HEIGHT/2;
