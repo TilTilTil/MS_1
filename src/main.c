@@ -4,6 +4,7 @@
 #include <math.h>
 #include <ctype.h>
 #include <string.h>
+#include "cleaner.h"
 
 #include "SatComRelay.h"
 #include "mapMake.h"
@@ -11,21 +12,32 @@
 void scanMap() {
     printf("\n");
 }
-char scanfErrorHandle() {   //trying to use fgets instead of scanf
+
+
+int canMove(char terrain)
+{
+    return terrain != '#';
+}
+
+
+
+char scanfErrorHandle(void)
+{
     char answer[10];
+
     fgets(answer, sizeof(answer), stdin);
-    if(isalpha(answer[0])) {    //checks if its a number,special character or even a spacebar
-        // printf("%c",answer[0]);
-        return answer[0];
-    }
-    else if(answer[1] != '\n') { //check if user keyed in multiple inputs
-        printf("Key in only one input");
+
+    // Remove the newline
+    answer[strcspn(answer, "\n")] = '\0';
+
+    // Check that exactly ONE character was entered
+    if (strlen(answer) != 1)
+    {
+        printf("Please enter only one character.\n");
         return '\0';
     }
-    else {
-        printf("invalid input!");
-        return '\0';
-    }
+
+    return answer[0];
 }
 
 VehDataType initVehicle() {
@@ -41,45 +53,102 @@ VehDataType initVehicle() {
 
     printf("\n\nIs the scenario file encrypted?\t(y/n): ");
     answer = scanfErrorHandle();
+ 
+while (answer != 'y' && answer != 'Y' && answer != 'n' && answer != 'N')
+{
+    printf("Invalid input. Please enter y or n: ");
 
-    if (answer == 'y' || answer == 'Y')
-        isFileEncrypted = true;
-    else
-        isFileEncrypted = false;
-
-    printf("\n\nDo you wish to randomize start position?\t(y/n): ");
     answer = scanfErrorHandle();
+}
 
-    if (answer == 'y' || answer == 'Y')
-        randomizeStartPosition = true;
-    else
-        randomizeStartPosition = false;
+if (answer == 'y' || answer == 'Y')
+{
+     isFileEncrypted = true;
+     printf("encrypted");
+}
+else if (answer == 'n' || answer == 'N')
+{
+    isFileEncrypted = false;
+    printf("not encrypted");
+}
 
-    printf("\nSelect mission:\n");
-    printf("1. Casual Explore\n");
-    printf("2. Find 1 End Point\n");
-    printf("3. Reach 1 End Point\n");
-    printf("4. Find All End Points\n");
-    printf("5. Reach ALL End Points\n");
-    printf("6. Find ALL Danger Points\n");
-    printf("7. Find Map Boundaries\n");
-    printf("8. Map Everything\n");
+    
 
-    printf("\nEnter your choice (1-8): ");
-    char digit[10];  
-    int num;     
+printf("\n\nDo you wish to randomize start position?\t(y/n): ");
+
+answer = scanfErrorHandle();
+
+while (answer != 'y' && answer != 'Y' && answer != 'n' && answer != 'N')
+{
+    printf("Invalid input. Please enter y or n: ");
+
+    answer = scanfErrorHandle();
+}
+
+if (answer == 'y' || answer == 'Y')
+{
+    randomizeStartPosition = true;
+    printf("randomised");
+}
+else if (answer == 'n' || answer == 'N')
+{
+    randomizeStartPosition = false;
+    printf("not random");
+}
+
+    //VehDataType result = {0};
+
+printf("\nSelect mission:\n");
+printf("1. Casual Explore\n");
+printf("2. Find 1 End Point\n");
+printf("3. Reach 1 End Point\n");
+printf("4. Find All End Points\n");
+printf("5. Reach ALL End Points\n");
+printf("6. Find ALL Danger Points\n");
+printf("7. Find Map Boundaries\n");
+printf("8. Map Everything\n");
+
+printf("\nEnter your choice (1-8): ");
+
+char digit[10];
+char *endptr;
+int num;
+
+while (1)
+{
     fgets(digit, sizeof(digit), stdin);
-    num = strtold(digit, NULL);
-    missionType = num;
 
-    printf("\n\nfilenname : %s, isFileEncrypted : %d, randomizeStartPosition : %d\n", scenarioFile, isFileEncrypted, randomizeStartPosition);
+    num = strtol(digit, &endptr, 10);
 
-    return SCRelay_Signal_Veh_Init(
-        scenarioFile,
-        isFileEncrypted,
-        randomizeStartPosition,
-        missionType
-    );
+    // Check if the user entered something that isn't a valid number
+    if (endptr == digit || (*endptr != '\n' && *endptr != '\0'))
+    {
+        printf("kill yourself. Please enter a number from 1 to 8: ");
+        continue;
+    }
+
+    // Check if number is outside 1-8
+    if (num < 1 || num > 8)
+    {
+        printf("kill yourself. Please enter a number from 1 to 8: ");
+        continue;
+    }
+
+    // Valid number
+    break;
+}
+
+missionType = num;
+
+printf("\n\nfilenname : %s, isFileEncrypted : %d, randomizeStartPosition : %d\n",
+       scenarioFile, isFileEncrypted, randomizeStartPosition);
+
+return SCRelay_Signal_Veh_Init(
+    scenarioFile,
+    isFileEncrypted,
+    randomizeStartPosition,
+    missionType
+);
 }
 
 // VehDataType initVehicle() {
@@ -142,40 +211,93 @@ int main(void) {
     {
         printf("\n\nEnter your command (q to quit) :");
         fgets(answer, sizeof(answer), stdin);   //fix the error handling one day
-        
+        cleanInput(answer);
+        answer[strcspn(answer, "\n")] = '\0';
+
+		if (strlen(answer) != 1)
+{
+   			 printf("Invalid command. Please enter exactly one character.\n");
+    	continue;
+}
+
+ 
         switch (answer[0]) {
-        case 'w':           
-        case 'W':           //Movement
-            vehicleData = SCRelay_Signal_Veh_MoveUpNorth();
-            printf("%d",vehPos.y);
-            vehPos.y = vehPos.y - 1;
-            printf("%d",vehPos.y);
-            printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
-            break;
+        
+        
+        
+        
+        case 'w':
+		{
+    		char north = SCRelay_Signal_Veh_ScanNorth(&vehicleData);
+
+   			 if (canMove(north))
+   			 {
+       			vehicleData = SCRelay_Signal_Veh_MoveUpNorth();
+        		vehPos.y--;
+        		printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
+}
+    		else
+   {
+        printf("Cannot move North! Border detected.\n");
+    }
+
+    break;
+}
+        
         case 's':
-        case 'S':
-            vehicleData = SCRelay_Signal_Veh_MoveDownSouth();
-            vehPos.y = vehPos.y + 1;
-            printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
+			char south = SCRelay_Signal_Veh_ScanSouth(&vehicleData);
+			
+			 if (canMove(south))
+            {
+           	 vehicleData = SCRelay_Signal_Veh_MoveDownSouth();
+            	vehPos.y = vehPos.y + 1;
+            	printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
+            }
+            else
+            { 
+            	printf("Cannot move South! Border detected.\n");
+            }
+            
+            
             break;
         case 'a':
-        case 'A':
-            vehicleData = SCRelay_Signal_Veh_MoveLeftWest();
-            vehPos.x = vehPos.x - 1;
-            printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
+			char west = SCRelay_Signal_Veh_ScanWest(&vehicleData);
+			if (canMove(west))
+			{
+           	 vehicleData = SCRelay_Signal_Veh_MoveLeftWest();
+           	 vehPos.x = vehPos.x - 1;
+             printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
+             }
+             
+             else
+             {  
+             	printf("Cannot move West! Border detected.\n");
+             }
+             	
             break;
         case 'd':
-        case 'D':
-            vehicleData = SCRelay_Signal_Veh_MoveRightEast();
-            vehPos.x = vehPos.x + 1;
-            printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
+			char east = SCRelay_Signal_Veh_ScanEast(&vehicleData);
+			if (canMove(east))
+			{
+            	vehicleData = SCRelay_Signal_Veh_MoveRightEast();
+            	vehPos.x = vehPos.x + 1;
+            	printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
+ }
+            else
+            {
+            	printf("Cannot move West! Border detected.\n");
+             }
+            
             break;
+            //value 1 stores the #,w,f
+            // 0,1 is N 1,0 is E
             
         case '1':    
             if (radiusBoolOne) {
                 char value1 = SCRelay_Signal_Veh_ScanSouthWest(&vehicleData);
                 printf("Returned (scanned) terrain symbol is : %c", value1);
                 printMapScan(scanMap, vehPos, -1, -1, value1);
+                
             } else {
                 char value2 = SCRelay_Signal_Veh_ScanSouthWest2(&vehicleData);
                 printf("Returned (scanned) terrain symbol is : %c", value2);
@@ -266,6 +388,15 @@ int main(void) {
                 printMapScan(scanMap, vehPos, 2, 2, value2);
             }
             break;
+            
+            
+
+
+     
+            
+            
+            
+        
 
         case 't':
         case 'T':           //Scan Radius
@@ -273,13 +404,20 @@ int main(void) {
             //need to have a printf so use an if else instead
             break;
         case 'i':
-        case 'I':           //energyShield
-            printf("\nEnter amt. of energy to increase / allocate to shield ( 1 to %ld ) :",vehicleData.currEnergy);
+                 //energyShield
+            printf("\n allocate energy to shield ( 1 to %ld ) :",vehicleData.currEnergy);
             char digit[10];  
             long num;     
             fgets(digit, sizeof(digit), stdin);
             num = strtold(digit, NULL);
             vehicleData = SCRelay_Signal_Veh_AllocateToShield (num);
+            break;
+            
+            
+     
+
+
+        
             // printf("\nEnter amt. of energy to increase / allocate to shield ( 1 to %ld ) :",vehicleData.currEnergy);
             // if (scanf("%lf", &amountOfEnergy) != 1)
             // {
