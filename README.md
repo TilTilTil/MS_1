@@ -2,11 +2,15 @@
 
 ## COMPILE
 
-```CMake(Recommended)
+CMake(Recommended)
+
+```bash
 cmake --build build
 ```
 
-```GCC
+GCC
+
+```bash
 gcc -Wall -Wextra -Iinclude \
     src/main.c \
     src/mapMake.c \
