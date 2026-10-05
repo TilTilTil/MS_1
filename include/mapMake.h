@@ -1,32 +1,26 @@
 #ifndef MAP_H
 #define MAP_H
 
-#define HEIGHT 20
-#define WIDTH 50
+#include "config.h"
 
 typedef struct {
     int x;
     int y;
 } VehPosType;
 
-typedef struct {
-    int x;
-    int y;
-    char value;
-} LocalTerrainType;
-
-int mapMake(char map[HEIGHT][WIDTH], 
-            VehPosType vehPos);
+int mapMake(char map[HEIGHT][WIDTH]);
 
 int printMapScan(char map[HEIGHT][WIDTH],
-                 VehPosType vehPos,
-                 int posX,
-                 int posY,
-                 char value);
+                VehPosType vehPos,
+                int posX,
+                int posY,
+                char value);
 
 int printMapExplore(char map[HEIGHT][WIDTH],
-                    VehPosType *vehPos,
-                    int posX,
-                    int posY);
+                    VehPosType vehPos,
+                    char value);
+
+void printMapStatic(char map[HEIGHT][WIDTH],
+                    VehPosType vehPos);
 
 #endif

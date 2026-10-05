@@ -145,3 +145,7 @@ int main() {
 //This is so as usualy whenever the car moves, the struct array will have all the position of terrain noted down and hence cant be deleted
 
 //lol got simpler method ahahahah
+
+
+
+
