@@ -14,7 +14,7 @@ char getValidChar(const char *prompt, const char *validChars) {
     while (1) {
         printf("%s", prompt);
         if (fgets(input, sizeof(input), stdin) == NULL) {
-            continue;
+            exit(1);
         }
         if (input[0] != '\n' && input[1] == '\n') {
             char choice = toupper((unsigned char)input[0]);
@@ -46,7 +46,7 @@ void sumTerrain(char map[HEIGHT][WIDTH]) {
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {
             if(map[i][j] != '\0') {
-                count[map[i][j]]++;
+                count[(unsigned char)map[i][j]]++;
             }        
         }
     }
@@ -138,7 +138,7 @@ int main() {
     mapMake(exploreMap);
     showUsageInstructions();
     while (answer != 'Q') {
-        switch (answer = getValidChar("\n\nEnter your command (q to quit) :","WASDVQTIZCX123456789")) {
+        switch (answer = getValidChar("\n\nEnter your command (q to quit) :","WASDVQTIZCX12346789")) {
         case 'W':
             moveHelper(&vehicleData, &vehPos ,scanMap, exploreMap, 0, 1, &moveCounter);
             break;
@@ -196,8 +196,8 @@ int main() {
             }
             break;
         case 'I': 
-            char digit[10];  
-            printf("\n allocate energy to shield ( 1 to %ld ) :",vehicleData.currEnergy);  
+            char digit[64];  
+            printf("\nAllocate energy to shield ( 1 to %ld ) :",vehicleData.currEnergy);  
             fgets(digit, sizeof(digit), stdin);
             long num = strtold(digit, NULL);
             vehicleData = SCRelay_Signal_Veh_AllocateToShield (num);
@@ -229,6 +229,7 @@ int main() {
             sumTerrain(scanMap);
             printf("\n\n[Terrain Types Explored ]\n\n");
             sumTerrain(exploreMap);
+            SCRelay_Signal_Veh_Close();
             break;              
         case 'V':
             showUsageInstructions();

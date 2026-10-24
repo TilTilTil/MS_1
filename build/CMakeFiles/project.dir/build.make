@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jon/ms
+CMAKE_SOURCE_DIR = /home/jon/main/ms
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jon/ms/build
+CMAKE_BINARY_DIR = /home/jon/main/ms/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/project.dir/depend.make
@@ -72,44 +72,44 @@ include CMakeFiles/project.dir/flags.make
 CMakeFiles/project.dir/src/main.c.o: CMakeFiles/project.dir/flags.make
 CMakeFiles/project.dir/src/main.c.o: ../src/main.c
 CMakeFiles/project.dir/src/main.c.o: CMakeFiles/project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jon/ms/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/project.dir/src/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/project.dir/src/main.c.o -MF CMakeFiles/project.dir/src/main.c.o.d -o CMakeFiles/project.dir/src/main.c.o -c /home/jon/ms/src/main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jon/main/ms/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/project.dir/src/main.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/project.dir/src/main.c.o -MF CMakeFiles/project.dir/src/main.c.o.d -o CMakeFiles/project.dir/src/main.c.o -c /home/jon/main/ms/src/main.c
 
 CMakeFiles/project.dir/src/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/project.dir/src/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/jon/ms/src/main.c > CMakeFiles/project.dir/src/main.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/jon/main/ms/src/main.c > CMakeFiles/project.dir/src/main.c.i
 
 CMakeFiles/project.dir/src/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/project.dir/src/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/jon/ms/src/main.c -o CMakeFiles/project.dir/src/main.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/jon/main/ms/src/main.c -o CMakeFiles/project.dir/src/main.c.s
 
 CMakeFiles/project.dir/src/mapMake.c.o: CMakeFiles/project.dir/flags.make
 CMakeFiles/project.dir/src/mapMake.c.o: ../src/mapMake.c
 CMakeFiles/project.dir/src/mapMake.c.o: CMakeFiles/project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jon/ms/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/project.dir/src/mapMake.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/project.dir/src/mapMake.c.o -MF CMakeFiles/project.dir/src/mapMake.c.o.d -o CMakeFiles/project.dir/src/mapMake.c.o -c /home/jon/ms/src/mapMake.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jon/main/ms/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/project.dir/src/mapMake.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/project.dir/src/mapMake.c.o -MF CMakeFiles/project.dir/src/mapMake.c.o.d -o CMakeFiles/project.dir/src/mapMake.c.o -c /home/jon/main/ms/src/mapMake.c
 
 CMakeFiles/project.dir/src/mapMake.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/project.dir/src/mapMake.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/jon/ms/src/mapMake.c > CMakeFiles/project.dir/src/mapMake.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/jon/main/ms/src/mapMake.c > CMakeFiles/project.dir/src/mapMake.c.i
 
 CMakeFiles/project.dir/src/mapMake.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/project.dir/src/mapMake.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/jon/ms/src/mapMake.c -o CMakeFiles/project.dir/src/mapMake.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/jon/main/ms/src/mapMake.c -o CMakeFiles/project.dir/src/mapMake.c.s
 
 CMakeFiles/project.dir/src/vehControl.c.o: CMakeFiles/project.dir/flags.make
 CMakeFiles/project.dir/src/vehControl.c.o: ../src/vehControl.c
 CMakeFiles/project.dir/src/vehControl.c.o: CMakeFiles/project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jon/ms/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/project.dir/src/vehControl.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/project.dir/src/vehControl.c.o -MF CMakeFiles/project.dir/src/vehControl.c.o.d -o CMakeFiles/project.dir/src/vehControl.c.o -c /home/jon/ms/src/vehControl.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jon/main/ms/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/project.dir/src/vehControl.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/project.dir/src/vehControl.c.o -MF CMakeFiles/project.dir/src/vehControl.c.o.d -o CMakeFiles/project.dir/src/vehControl.c.o -c /home/jon/main/ms/src/vehControl.c
 
 CMakeFiles/project.dir/src/vehControl.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/project.dir/src/vehControl.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/jon/ms/src/vehControl.c > CMakeFiles/project.dir/src/vehControl.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/jon/main/ms/src/vehControl.c > CMakeFiles/project.dir/src/vehControl.c.i
 
 CMakeFiles/project.dir/src/vehControl.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/project.dir/src/vehControl.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/jon/ms/src/vehControl.c -o CMakeFiles/project.dir/src/vehControl.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/jon/main/ms/src/vehControl.c -o CMakeFiles/project.dir/src/vehControl.c.s
 
 # Object files for target project
 project_OBJECTS = \
@@ -119,14 +119,15 @@ project_OBJECTS = \
 
 # External object files for target project
 project_EXTERNAL_OBJECTS = \
-"/home/jon/ms/lib/ConfigSettings.o" \
-"/home/jon/ms/lib/ExpReport.o" \
-"/home/jon/ms/lib/FileUtil.o" \
-"/home/jon/ms/lib/RadarSensor.o" \
-"/home/jon/ms/lib/SatComRelay.o" \
-"/home/jon/ms/lib/Terrain.o" \
-"/home/jon/ms/lib/TerrainMap.o" \
-"/home/jon/ms/lib/VehController.o"
+"/home/jon/main/ms/lib/ConfigSettings.o" \
+"/home/jon/main/ms/lib/ExpReport.o" \
+"/home/jon/main/ms/lib/FileUtil.o" \
+"/home/jon/main/ms/lib/RadarSensor.o" \
+"/home/jon/main/ms/lib/SatComRelay.o" \
+"/home/jon/main/ms/lib/Terrain.o" \
+"/home/jon/main/ms/lib/TerrainMap.o" \
+"/home/jon/main/ms/lib/VehController.o" \
+"/home/jon/main/ms/lib/cleaner.o"
 
 project: CMakeFiles/project.dir/src/main.c.o
 project: CMakeFiles/project.dir/src/mapMake.c.o
@@ -139,9 +140,10 @@ project: ../lib/SatComRelay.o
 project: ../lib/Terrain.o
 project: ../lib/TerrainMap.o
 project: ../lib/VehController.o
+project: ../lib/cleaner.o
 project: CMakeFiles/project.dir/build.make
 project: CMakeFiles/project.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jon/ms/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable project"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jon/main/ms/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable project"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/project.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -153,6 +155,6 @@ CMakeFiles/project.dir/clean:
 .PHONY : CMakeFiles/project.dir/clean
 
 CMakeFiles/project.dir/depend:
-	cd /home/jon/ms/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jon/ms /home/jon/ms /home/jon/ms/build /home/jon/ms/build /home/jon/ms/build/CMakeFiles/project.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/jon/main/ms/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jon/main/ms /home/jon/main/ms /home/jon/main/ms/build /home/jon/main/ms/build /home/jon/main/ms/build/CMakeFiles/project.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/project.dir/depend
 

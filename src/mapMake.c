@@ -14,7 +14,9 @@ int printMapScan(char map[HEIGHT][WIDTH], VehPosType vehPos, int posX, int posY,
     printf("\n================================\n");
     printf("          SCANNED MAP             \n");
     printf("================================\n\n");
-    map[vehPos.y - posY][vehPos.x + posX] = value;
+    if(value != '\0') {
+        map[vehPos.y - posY][vehPos.x + posX] = value;        
+    }
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {
             if (i == vehPos.y && j == vehPos.x) {
@@ -45,6 +47,8 @@ int printMapExplore(char map[HEIGHT][WIDTH], VehPosType vehPos, char value) {
                 printf("\033[4m%c\033[0m", value);
             } else if (map[i][j] == '\0') {
                 putchar(' ');
+            } else if(map[i][j] == ' ') {
+                printf("\033[47m%c\033[0m", map[i][j]);
             } else {
                 putchar(map[i][j]);
             }
@@ -61,10 +65,14 @@ void printMapStatic(char map[HEIGHT][WIDTH], VehPosType vehPos) {
     printf("================================\n\n");
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {
-            if (map[i][j] == '\0') {
+            if(map[i][j] == '\0' && i == vehPos.y && j == vehPos.x) {
+                printf("\033[4m \033[0m");
+            } else if (map[i][j] == '\0') {
                 putchar(' ');
             } else if(i == vehPos.y && j == vehPos.x) {
                 printf("\033[4m%c\033[0m", map[vehPos.y][vehPos.x]);
+            } else if(map[i][j] == ' ') {
+                printf("\033[47m%c\033[0m", map[i][j]);
             } else {
                 putchar(map[i][j]);
             }

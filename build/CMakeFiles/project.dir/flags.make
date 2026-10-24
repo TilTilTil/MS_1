@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/home/jon/ms/include
+C_INCLUDES = -I/home/jon/main/ms/include
 
 C_FLAGS = 
 

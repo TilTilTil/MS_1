@@ -52,16 +52,16 @@ void moveHelper(VehDataType *vehicleData, VehPosType *vehPos, char scanMap[HEIGH
             printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData->initialEnergy,vehicleData->totEnergyUsed,vehicleData->currEnergy,vehicleData->currShieldEnergy);
             (*Counter)++;
         } else {
-            printf("Cannot move North! Border detected.\n");
+            printf("Cannot move! Border detected.\n");
         }                
     } else if (scanMap[vehPos->y - localY][vehPos->x + localX] != '#') {
             performMove(vehicleData, localX, localY);
             vehPos->y = vehPos->y - localY;
             vehPos->x = vehPos->x + localX;
-            printMapExplore(exploreMap, *vehPos, scanMap[vehPos->y - localY][vehPos->x + localX]);
+            printMapExplore(exploreMap, *vehPos, scanMap[vehPos->y][vehPos->x]);
             printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData->initialEnergy,vehicleData->totEnergyUsed,vehicleData->currEnergy,vehicleData->currShieldEnergy);
             (*Counter)++;
     } else {
-        printf("Cannot move North! Border detected.\n");
+        printf("Cannot move! Border detected.\n");
     }
 }
