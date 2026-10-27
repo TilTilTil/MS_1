@@ -41,6 +41,15 @@ CMakeFiles/project.dir/src/autoControl.c.o
  /usr/include/x86_64-linux-gnu/bits/endianness.h
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h
+ /usr/include/time.h
+ /usr/include/x86_64-linux-gnu/bits/time.h
+ /usr/include/x86_64-linux-gnu/bits/types/clock_t.h
+ /usr/include/x86_64-linux-gnu/bits/types/time_t.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h
+ /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h
+ /usr/include/x86_64-linux-gnu/bits/types/timer_t.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h
 
 CMakeFiles/project.dir/src/errorHandle.c.o
  /home/jon/main/ms2/src/errorHandle.c
@@ -170,6 +179,8 @@ CMakeFiles/project.dir/src/main.c.o
  /home/jon/main/ms2/include/SatComRelay.h
  /home/jon/main/ms2/include/mapMake.h
  /home/jon/main/ms2/include/errorHandle.h
+ /home/jon/main/ms2/include/autoControl.h
+ /home/jon/main/ms2/include/vehControl.h
 
 CMakeFiles/project.dir/src/mapMake.c.o
  /home/jon/main/ms2/src/mapMake.c

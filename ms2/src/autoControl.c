@@ -107,54 +107,52 @@ static void initAuto(VehDataType *vehicleData, VehPosType vehPos, char scanMap[H
     }
 }
 
-static void moveScanDir(VehDataType *vehicleData, VehPosType vehPos, char scanMap[HEIGHT][WIDTH], int *Counter, char dir){
-    switch(dir) {
+
+static void moveScanDir(VehDataType *vehicleData, VehPosType vehPos, char scanMap[HEIGHT][WIDTH], int *Counter, char dir) {
+    int localX;
+    int localY;
+    int dirX[5];
+    int dirY[5];
+    switch (dir) {
         case 'N':
-            int dirX[5] = {  0, -1,  1, -1,  1 };
-            int dirY[5] = { -1, -1, -1,  0,  0 };
-            int localX;
-            int localY;
-            for (int i = 0; i < sizeof(dirX); i++) {
-                localX = dirX[i];
-                localY = dirY[i];
-                scanHelper(vehicleData, vehPos, scanMap, true, localX, localY, Counter);
-                scanHelper(vehicleData, vehPos, scanMap, false, localX, localY, Counter);
-            }
+            dirX[0] =  0; dirY[0] = -1;
+            dirX[1] = -1; dirY[1] = -1;
+            dirX[2] =  1; dirY[2] = -1;
+            dirX[3] = -1; dirY[3] =  0;
+            dirX[4] =  1; dirY[4] =  0;
+            break;
         case 'S':
-            int dirX[5] = {  0, -1,  1, -1,  1 };
-            int dirY[5] = {  1,  1,  1,  0,  0 };
-            int localX;
-            int localY;
-            for (int i = 0; i < sizeof(dirX); i++) {
-                localX = dirX[i];
-                localY = dirY[i];
-                scanHelper(vehicleData, vehPos, scanMap, true, localX, localY, Counter);
-                scanHelper(vehicleData, vehPos, scanMap, false, localX, localY, Counter);
-            }
+            dirX[0] =  0; dirY[0] =  1;
+            dirX[1] = -1; dirY[1] =  1;
+            dirX[2] =  1; dirY[2] =  1;
+            dirX[3] = -1; dirY[3] =  0;
+            dirX[4] =  1; dirY[4] =  0;
+            break;
         case 'E':
-            int dirX[5] = {  1,  1,  1,  0,  0 };
-            int dirY[5] = {  0, -1,  1, -1,  1 };
-            int localX;
-            int localY;
-            for (int i = 0; i < sizeof(dirX); i++) {
-                localX = dirX[i];
-                localY = dirY[i];
-                scanHelper(vehicleData, vehPos, scanMap, true, localX, localY, Counter);
-                scanHelper(vehicleData, vehPos, scanMap, false, localX, localY, Counter);
-            }
+            dirX[0] =  1; dirY[0] =  0;
+            dirX[1] =  1; dirY[1] = -1;
+            dirX[2] =  1; dirY[2] =  1;
+            dirX[3] =  0; dirY[3] = -1;
+            dirX[4] =  0; dirY[4] =  1;
+            break;
         case 'W':
-            int dirX[5] = { -1, -1, -1,  0,  0 };
-            int dirY[5] = {  0, -1,  1, -1,  1 };
-            int localX;
-            int localY;
-            for (int i = 0; i < sizeof(dirX); i++) {
-                localX = dirX[i];
-                localY = dirY[i];
-                scanHelper(vehicleData, vehPos, scanMap, true, localX, localY, Counter);
-                scanHelper(vehicleData, vehPos, scanMap, false, localX, localY, Counter);
-            }
+            dirX[0] = -1; dirY[0] =  0;
+            dirX[1] = -1; dirY[1] = -1;
+            dirX[2] = -1; dirY[2] =  1;
+            dirX[3] =  0; dirY[3] = -1;
+            dirX[4] =  0; dirY[4] =  1;
+            break;
+        default:
+            return;
+    }
+    for (int i = 0; i < 5; i++) {
+        localX = dirX[i];
+        localY = dirY[i];
+        scanHelper(vehicleData, vehPos, scanMap, true, localX, localY, Counter);
+        scanHelper(vehicleData, vehPos, scanMap, false, localX, localY, Counter);
     }
 }
+
 
 static void boundHandle(terrainCostType terrainCostLog[256], VehPosType *vehPos, char scanMap[HEIGHT][WIDTH]){
     //should be scanned already. //remake scanHelper so it does not scan an area that is already scanned

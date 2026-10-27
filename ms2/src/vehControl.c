@@ -34,11 +34,13 @@ static void performMove(VehDataType *vehicleData, int localX, int localY) {
 }
 
 void scanHelper(VehDataType *vehicleData, VehPosType vehPos, char scanMap[HEIGHT][WIDTH], bool radiusBoolOne, int localX, int localY, int *Counter) {
-    char value = performScan(vehicleData, radiusBoolOne, localX, localY);
-    int step = radiusBoolOne ? 1 : 2;
-    printf("Returned (scanned) terrain symbol is : %c", value);
-    (*Counter)++;
-    printMapScan(scanMap, vehPos, localX * step, localY * step, value);    
+    if(scanMap[vehPos.y-localY][vehPos.x + localX] == '\0') {
+        char value = performScan(vehicleData, radiusBoolOne, localX, localY);
+        int step = radiusBoolOne ? 1 : 2;
+        printf("Returned (scanned) terrain symbol is : %c", value);
+        (*Counter)++;
+        printMapScan(scanMap, vehPos, localX * step, localY * step, value);    
+    }
 }
 
 void moveHelper(VehDataType *vehicleData, VehPosType *vehPos, terrainCostType terrainCostLog[256], char scanMap[HEIGHT][WIDTH], char exploreMap[HEIGHT][WIDTH], int localX, int localY, int *Counter) {

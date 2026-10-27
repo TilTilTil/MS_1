@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 char getValidChar(const char *prompt, const char *validChars) {
     char input[16];
