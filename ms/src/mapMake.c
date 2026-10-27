@@ -1,16 +1,15 @@
 #include <stdio.h>
 #include "mapMake.h"
 
-int mapMake(char map[HEIGHT][WIDTH]) {
+void mapMake(char map[HEIGHT][WIDTH]) {
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {
                 map[i][j] = '\0';        
         }
     }
-    return 0;
 }
 
-int printMapScan(char map[HEIGHT][WIDTH], VehPosType vehPos, int posX, int posY, char value) {
+void printMapScan(char map[HEIGHT][WIDTH], VehPosType vehPos, int posX, int posY, char value) {
     printf("\n================================\n");
     printf("          SCANNED MAP             \n");
     printf("================================\n\n");
@@ -30,10 +29,9 @@ int printMapScan(char map[HEIGHT][WIDTH], VehPosType vehPos, int posX, int posY,
         }
         putchar('\n');
     }
-    return 0;
 }
 
-int printMapExplore(char map[HEIGHT][WIDTH], VehPosType vehPos, char value) {
+void printMapExplore(char map[HEIGHT][WIDTH], VehPosType vehPos, char value) {
     printf("\n================================\n");
     printf("          EXPLORED MAP          \n");
     printf("================================\n\n");
@@ -56,7 +54,6 @@ int printMapExplore(char map[HEIGHT][WIDTH], VehPosType vehPos, char value) {
         }
         putchar('\n');
     }
-    return 0;
 }
 
 void printMapStatic(char map[HEIGHT][WIDTH], VehPosType vehPos) {

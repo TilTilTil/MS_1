@@ -8,15 +8,15 @@ typedef struct {
     int y;
 } VehPosType;
 
-int mapMake(char map[HEIGHT][WIDTH]);
+void mapMake(char map[HEIGHT][WIDTH]);
 
-int printMapScan(char map[HEIGHT][WIDTH],
+void printMapScan(char map[HEIGHT][WIDTH],
                 VehPosType vehPos,
                 int posX,
                 int posY,
                 char value);
 
-int printMapExplore(char map[HEIGHT][WIDTH],
+void printMapExplore(char map[HEIGHT][WIDTH],
                     VehPosType vehPos,
                     char value);
 
