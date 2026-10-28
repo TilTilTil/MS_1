@@ -197,7 +197,7 @@ int main() {
             sumTerrain(exploreMap);
             printf("\n");
             for (int i = 0; i < 256; i++) {
-                if (terrainCostLog[i].totalCost > 0 && i != 0) {
+                if (terrainCostLog[i].totalCost > 0) {
                     printf("Type '%c': %d : %d : %d\n", i, terrainCostLog[i].energy,terrainCostLog[i].shield,terrainCostLog[i].totalCost);
                 }
             }

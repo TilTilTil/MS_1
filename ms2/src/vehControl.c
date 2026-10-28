@@ -50,11 +50,11 @@ void moveHelper(VehDataType *vehicleData, VehPosType *vehPos, terrainCostType te
             int startEnergyCost = vehicleData->currEnergy;
             int startShieldCost = vehicleData->currShieldEnergy;
             performMove(vehicleData, localX, localY);
+            vehPos->y = vehPos->y - localY;
+            vehPos->x = vehPos->x + localX;
             terrainCostLog[value].energy = startEnergyCost - vehicleData->currEnergy;
             terrainCostLog[value].shield = startShieldCost - vehicleData->currShieldEnergy;
             terrainCostLog[value].totalCost = terrainCostLog[value].energy + terrainCostLog[value].shield;
-            vehPos->y = vehPos->y - localY;
-            vehPos->x = vehPos->x + localX;
             printMapExplore(exploreMap, *vehPos, value);
             printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData->initialEnergy,vehicleData->totEnergyUsed,vehicleData->currEnergy,vehicleData->currShieldEnergy);
             (*Counter)++;
@@ -65,11 +65,11 @@ void moveHelper(VehDataType *vehicleData, VehPosType *vehPos, terrainCostType te
             int startEnergyCost = vehicleData->currEnergy;
             int startShieldCost = vehicleData->currShieldEnergy;
             performMove(vehicleData, localX, localY);
+            vehPos->y = vehPos->y - localY;
+            vehPos->x = vehPos->x + localX;
             terrainCostLog[scanMap[vehPos->y][vehPos->x]].energy = startEnergyCost - vehicleData->currEnergy;
             terrainCostLog[scanMap[vehPos->y][vehPos->x]].shield = startShieldCost - vehicleData->currShieldEnergy;
             terrainCostLog[scanMap[vehPos->y][vehPos->x]].totalCost = terrainCostLog[scanMap[vehPos->y][vehPos->x]].energy + terrainCostLog[scanMap[vehPos->y][vehPos->x]].shield;
-            vehPos->y = vehPos->y - localY;
-            vehPos->x = vehPos->x + localX;
             printMapExplore(exploreMap, *vehPos, scanMap[vehPos->y][vehPos->x]);
             printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData->initialEnergy,vehicleData->totEnergyUsed,vehicleData->currEnergy,vehicleData->currShieldEnergy);
             (*Counter)++;

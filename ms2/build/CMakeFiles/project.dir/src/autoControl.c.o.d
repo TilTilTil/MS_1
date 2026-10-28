@@ -22,15 +22,7 @@ CMakeFiles/project.dir/src/autoControl.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
- /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
- /home/jon/main/ms2/include/vehControl.h \
- /home/jon/main/ms2/include/config.h \
- /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
- /home/jon/main/ms2/include/SatComRelay.h \
- /home/jon/main/ms2/include/mapMake.h \
- /home/jon/main/ms2/include/SatComRelay.h \
- /home/jon/main/ms2/include/mapMake.h \
- /home/jon/main/ms2/include/errorHandle.h /usr/include/ctype.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn-common.h /usr/include/ctype.h \
  /usr/include/x86_64-linux-gnu/bits/endian.h \
  /usr/include/x86_64-linux-gnu/bits/endianness.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
@@ -42,4 +34,14 @@ CMakeFiles/project.dir/src/autoControl.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h
+ /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+ /home/jon/main/ms2/include/vehControl.h \
+ /home/jon/main/ms2/include/config.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
+ /home/jon/main/ms2/include/SatComRelay.h \
+ /home/jon/main/ms2/include/mapMake.h \
+ /home/jon/main/ms2/include/SatComRelay.h \
+ /home/jon/main/ms2/include/mapMake.h \
+ /home/jon/main/ms2/include/errorHandle.h \
+ /home/jon/main/ms2/include/autoControl.h \
+ /home/jon/main/ms2/include/vehControl.h
