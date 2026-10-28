@@ -7,11 +7,6 @@
 #include "mapMake.h"
 #include "vehControl.h"
 
-enum moveState {
-  MOVETOBOUDNARY,
-  MOVEFIVE,
-};
-
 void autoConfig();
 
 void autoRun(
