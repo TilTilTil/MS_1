@@ -34,9 +34,9 @@ static void performMove(VehDataType *vehicleData, int localX, int localY) {
 }
 
 void scanHelper(VehDataType *vehicleData, VehPosType vehPos, char scanMap[HEIGHT][WIDTH], bool radiusBoolOne, int localX, int localY, int *Counter) {
-    if(scanMap[vehPos.y-localY][vehPos.x + localX] == '\0') {
+    int step = radiusBoolOne ? 1 : 2;
+    if(scanMap[vehPos.y-localY * step][vehPos.x + localX * step] == '\0') {
         char value = performScan(vehicleData, radiusBoolOne, localX, localY);
-        int step = radiusBoolOne ? 1 : 2;
         printf("Returned (scanned) terrain symbol is : %c", value);
         (*Counter)++;
         printMapScan(scanMap, vehPos, localX * step, localY * step, value);    
@@ -52,6 +52,7 @@ void moveHelper(VehDataType *vehicleData, VehPosType *vehPos, terrainCostType te
             performMove(vehicleData, localX, localY);
             terrainCostLog[value].energy = startEnergyCost - vehicleData->currEnergy;
             terrainCostLog[value].shield = startShieldCost - vehicleData->currShieldEnergy;
+            terrainCostLog[value].totalCost = terrainCostLog[value].energy + terrainCostLog[value].shield;
             vehPos->y = vehPos->y - localY;
             vehPos->x = vehPos->x + localX;
             printMapExplore(exploreMap, *vehPos, value);
@@ -59,13 +60,14 @@ void moveHelper(VehDataType *vehicleData, VehPosType *vehPos, terrainCostType te
             (*Counter)++;
         } else {
             printf("Cannot move! Border detected.\n");
-        }                
+        }
     } else if (scanMap[vehPos->y - localY][vehPos->x + localX] != '#') {
             int startEnergyCost = vehicleData->currEnergy;
             int startShieldCost = vehicleData->currShieldEnergy;
             performMove(vehicleData, localX, localY);
             terrainCostLog[scanMap[vehPos->y][vehPos->x]].energy = startEnergyCost - vehicleData->currEnergy;
             terrainCostLog[scanMap[vehPos->y][vehPos->x]].shield = startShieldCost - vehicleData->currShieldEnergy;
+            terrainCostLog[scanMap[vehPos->y][vehPos->x]].totalCost = terrainCostLog[scanMap[vehPos->y][vehPos->x]].energy + terrainCostLog[scanMap[vehPos->y][vehPos->x]].shield;
             vehPos->y = vehPos->y - localY;
             vehPos->x = vehPos->x + localX;
             printMapExplore(exploreMap, *vehPos, scanMap[vehPos->y][vehPos->x]);

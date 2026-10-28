@@ -98,7 +98,6 @@ int main() {
     vehPos.y = HEIGHT/2;
     
     terrainCostType terrainCostLog[256] = {0};
-
     char answer = '\0';
     bool radiusBoolOne = true;          //default use case is 1
     int moveCounter = 0;
@@ -196,6 +195,12 @@ int main() {
             sumTerrain(scanMap);
             printf("\n\n[Terrain Types Explored ]\n\n");
             sumTerrain(exploreMap);
+            printf("\n");
+            for (int i = 0; i < 256; i++) {
+                if (terrainCostLog[i].totalCost > 0 && i != 0) {
+                    printf("Type '%c': %d : %d : %d\n", i, terrainCostLog[i].energy,terrainCostLog[i].shield,terrainCostLog[i].totalCost);
+                }
+            }
             SCRelay_Signal_Veh_Close();
             break;              
         case 'V':
@@ -205,6 +210,7 @@ int main() {
             autoConfig();
             break;
         case 'P':
+            autoRun(&vehicleData, &vehPos, terrainCostLog, scanMap, exploreMap, &scanCounter, &moveCounter);
             break;
         }
     }

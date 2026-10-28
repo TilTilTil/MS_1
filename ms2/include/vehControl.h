@@ -9,6 +9,7 @@
 typedef struct{
     int energy;
     int shield;
+    int totalCost;
 }terrainCostType;
 
 void scanHelper(VehDataType *vehicleData, 

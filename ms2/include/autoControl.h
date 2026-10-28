@@ -7,6 +7,20 @@
 #include "mapMake.h"
 #include "vehControl.h"
 
+enum moveState {
+  MOVETOBOUDNARY,
+  MOVEFIVE,
+};
+
 void autoConfig();
 
+void autoRun(
+    VehDataType *vehicleData,
+    VehPosType *vehPos,
+    terrainCostType terrainCostLog[256],
+    char scanMap[HEIGHT][WIDTH],
+    char exploreMap[HEIGHT][WIDTH],
+    int *scanCounter,
+    int *moveCounter
+);
 #endif

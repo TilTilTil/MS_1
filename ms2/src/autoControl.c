@@ -1,13 +1,15 @@
 #include <stdio.h>
+#include <ctype.h>
+#include <time.h>
+
 #include "vehControl.h"
 #include "SatComRelay.h"
 #include "mapMake.h"
 #include "vehControl.h"
 #include "errorHandle.h"
-#include <ctype.h>
-#include <time.h>
+#include "autoControl.h"
 
-#define STARTSHIELD 7000
+#define STARTSHIELD 70000
 
 // static void delay(long number_of_seconds)
 // {
@@ -99,7 +101,7 @@ static void initAuto(VehDataType *vehicleData, VehPosType vehPos, char scanMap[H
     int dirY[8] = {-1, -1,  0,  1,  1,  1,  0, -1};
     int localX;
     int localY;
-    for (int i = 0; i < sizeof(dirX); i++) {
+    for (int i = 0; i < sizeof(dirX) / sizeof(dirX[0]); i++) {
         localX = dirX[i];
         localY = dirY[i];
         scanHelper(vehicleData, vehPos, scanMap, true, localX, localY, Counter);
@@ -107,59 +109,204 @@ static void initAuto(VehDataType *vehicleData, VehPosType vehPos, char scanMap[H
     }
 }
 
-
-static void moveScanDir(VehDataType *vehicleData, VehPosType vehPos, char scanMap[HEIGHT][WIDTH], int *Counter, char dir) {
+static void moveScanVectorUnit(VehDataType *vehicleData, VehPosType *vehPos, terrainCostType terrainCostLog[256], char scanMap[HEIGHT][WIDTH], char exploreMap[HEIGHT][WIDTH], int *scanCounter, int *moveCounter, char *vehicleFacingDir, char dir) {
     int localX;
     int localY;
-    int dirX[5];
-    int dirY[5];
+    int semiCircleX[5];
+    int semiCircleY[5];
     switch (dir) {
         case 'N':
-            dirX[0] =  0; dirY[0] = -1;
-            dirX[1] = -1; dirY[1] = -1;
-            dirX[2] =  1; dirY[2] = -1;
-            dirX[3] = -1; dirY[3] =  0;
-            dirX[4] =  1; dirY[4] =  0;
+            semiCircleX[0] =  0; semiCircleY[0] = 1;
+            semiCircleX[1] = -1; semiCircleY[1] = 1;
+            semiCircleX[2] =  1; semiCircleY[2] = 1;
+            semiCircleX[3] = -1; semiCircleY[3] =  0;
+            semiCircleX[4] =  1; semiCircleY[4] =  0;
+            moveHelper(vehicleData, vehPos ,terrainCostLog ,scanMap, exploreMap, 0, 1, moveCounter);
+            *vehicleFacingDir = dir;
             break;
         case 'S':
-            dirX[0] =  0; dirY[0] =  1;
-            dirX[1] = -1; dirY[1] =  1;
-            dirX[2] =  1; dirY[2] =  1;
-            dirX[3] = -1; dirY[3] =  0;
-            dirX[4] =  1; dirY[4] =  0;
+            semiCircleX[0] =  0; semiCircleY[0] =  -1;
+            semiCircleX[1] = -1; semiCircleY[1] =  -1;
+            semiCircleX[2] =  1; semiCircleY[2] =  -1;
+            semiCircleX[3] = -1; semiCircleY[3] =  0;
+            semiCircleX[4] =  1; semiCircleY[4] =  0;
+            moveHelper(vehicleData, vehPos ,terrainCostLog ,scanMap, exploreMap, 0, -1, moveCounter);
+            *vehicleFacingDir = dir;
             break;
         case 'E':
-            dirX[0] =  1; dirY[0] =  0;
-            dirX[1] =  1; dirY[1] = -1;
-            dirX[2] =  1; dirY[2] =  1;
-            dirX[3] =  0; dirY[3] = -1;
-            dirX[4] =  0; dirY[4] =  1;
+            semiCircleX[0] =  1; semiCircleY[0] =  0;
+            semiCircleX[1] =  1; semiCircleY[1] = -1;
+            semiCircleX[2] =  1; semiCircleY[2] =  1;
+            semiCircleX[3] =  0; semiCircleY[3] = -1;
+            semiCircleX[4] =  0; semiCircleY[4] =  1;
+            moveHelper(vehicleData, vehPos ,terrainCostLog ,scanMap, exploreMap, 1, 0, moveCounter);
+            *vehicleFacingDir = dir;
             break;
         case 'W':
-            dirX[0] = -1; dirY[0] =  0;
-            dirX[1] = -1; dirY[1] = -1;
-            dirX[2] = -1; dirY[2] =  1;
-            dirX[3] =  0; dirY[3] = -1;
-            dirX[4] =  0; dirY[4] =  1;
+            semiCircleX[0] = -1; semiCircleY[0] =  0;
+            semiCircleX[1] = -1; semiCircleY[1] = -1;
+            semiCircleX[2] = -1; semiCircleY[2] =  1;
+            semiCircleX[3] =  0; semiCircleY[3] = -1;
+            semiCircleX[4] =  0; semiCircleY[4] =  1;
+            moveHelper(vehicleData, vehPos ,terrainCostLog ,scanMap, exploreMap, -1, 0, moveCounter);
+            *vehicleFacingDir = dir;
             break;
         default:
             return;
     }
     for (int i = 0; i < 5; i++) {
-        localX = dirX[i];
-        localY = dirY[i];
-        scanHelper(vehicleData, vehPos, scanMap, true, localX, localY, Counter);
-        scanHelper(vehicleData, vehPos, scanMap, false, localX, localY, Counter);
+        localX = semiCircleX[i];
+        localY = semiCircleY[i];
+        scanHelper(vehicleData, *vehPos, scanMap, true, localX, localY, scanCounter);
+        scanHelper(vehicleData, *vehPos, scanMap, false, localX, localY, scanCounter);
     }
 }
 
-
-static void boundHandle(terrainCostType terrainCostLog[256], VehPosType *vehPos, char scanMap[HEIGHT][WIDTH]){
-    //should be scanned already. //remake scanHelper so it does not scan an area that is already scanned
-    int costLeft = scanMap[vehPos->x][vehPos->y];
-    int costRight = scanMap[vehPos->x][vehPos->y];
+static void boundHandle(terrainCostType terrainCostLog[256], VehPosType *vehPos, char scanMap[HEIGHT][WIDTH], char *vehicleFacingDir){
+    int costLeft;
+    int costRight;
+    switch(*vehicleFacingDir) {
+        case 'N':
+            if(scanMap[vehPos->y][vehPos->x - 1] == '#' || scanMap[vehPos->y][vehPos->x -2] == '#') {
+                *vehicleFacingDir = 'E';
+            } else if(scanMap[vehPos->y][vehPos->x + 1] == '#' || scanMap[vehPos->y][vehPos->x + 2] == '#') {
+                *vehicleFacingDir = 'W';
+            } else {
+                costLeft = terrainCostLog[scanMap[vehPos->y][vehPos->x - 1]].totalCost + terrainCostLog[scanMap[vehPos->y][vehPos->x - 2]].totalCost;
+                costRight = terrainCostLog[scanMap[vehPos->y][vehPos->x + 1]].totalCost + terrainCostLog[scanMap[vehPos->y][vehPos->x + 2]].totalCost;
+                (costLeft > costRight) ? (*vehicleFacingDir = 'E') : (*vehicleFacingDir = 'W');
+            }
+            break;
+        case 'S':
+            if(scanMap[vehPos->y][vehPos->x + 1] == '#' || scanMap[vehPos->y][vehPos->x + 2] == '#') {
+                *vehicleFacingDir = 'W';
+            } else if(scanMap[vehPos->y][vehPos->x - 1] == '#' || scanMap[vehPos->y][vehPos->x - 2] == '#') {
+                *vehicleFacingDir = 'E';
+            } else {
+                costLeft = terrainCostLog[scanMap[vehPos->y][vehPos->x + 1]].totalCost + terrainCostLog[scanMap[vehPos->y][vehPos->x + 2]].totalCost;
+                costRight = terrainCostLog[scanMap[vehPos->y][vehPos->x - 1]].totalCost + terrainCostLog[scanMap[vehPos->y][vehPos->x - 2]].totalCost;
+                (costLeft > costRight) ? (*vehicleFacingDir = 'W') : (*vehicleFacingDir = 'E');
+            }
+            break;
+        case 'E':
+            if(scanMap[vehPos->y - 1][vehPos->x] == '#' || scanMap[vehPos->y - 2][vehPos->x] == '#') {
+                *vehicleFacingDir = 'S';
+            } else if(scanMap[vehPos->y + 1][vehPos->x] == '#' || scanMap[vehPos->y + 2][vehPos->x] == '#') {
+                *vehicleFacingDir = 'N';
+            } else {
+                costLeft = terrainCostLog[scanMap[vehPos->y - 1][vehPos->x]].totalCost + terrainCostLog[scanMap[vehPos->y - 2][vehPos->x]].totalCost;
+                costRight = terrainCostLog[scanMap[vehPos->y + 1][vehPos->x]].totalCost + terrainCostLog[scanMap[vehPos->y + 2][vehPos->x]].totalCost;
+                (costLeft > costRight) ? (*vehicleFacingDir = 'S') : (*vehicleFacingDir = 'N');
+            }
+            break;
+        case 'W':
+            if(scanMap[vehPos->y + 1][vehPos->x] == '#' || scanMap[vehPos->y + 2][vehPos->x] == '#') {
+                *vehicleFacingDir = 'N';
+            } else if(scanMap[vehPos->y - 1][vehPos->x] == '#' || scanMap[vehPos->y - 2][vehPos->x] == '#') {
+                *vehicleFacingDir = 'S';
+            } else {
+                costLeft = terrainCostLog[scanMap[vehPos->y + 1][vehPos->x]].totalCost + terrainCostLog[scanMap[vehPos->y + 2][vehPos->x]].totalCost;
+                costRight = terrainCostLog[scanMap[vehPos->y - 1][vehPos->x]].totalCost + terrainCostLog[scanMap[vehPos->y - 2][vehPos->x]].totalCost;
+                (costLeft > costRight) ? (*vehicleFacingDir = 'N') : (*vehicleFacingDir = 'S');
+            }
+            break;
+        default:
+            return;
+    }
 }
 
-void autoRun() {
-    //roadmap design
+static char moveScanMode(VehDataType *vehicleData, VehPosType *vehPos, terrainCostType terrainCostLog[256], char scanMap[HEIGHT][WIDTH], char exploreMap[HEIGHT][WIDTH], int *scanCounter, int *moveCounter, char vehicleFacingDir, enum moveState status) {
+    switch(vehicleFacingDir) {
+        case 'N':
+            if(status == MOVETOBOUDNARY) {
+                while(scanMap[vehPos->y - 1][vehPos->x] != '#' && scanMap[vehPos->y - 2][vehPos->x] != '#') {
+                    moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'N');
+                }
+                moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'S');
+                boundHandle(terrainCostLog, vehPos, scanMap, &vehicleFacingDir);
+            } else if(status == MOVEFIVE) {
+                for(int i = 0; i < 5; i++) {
+                    if(scanMap[vehPos->y - 2][vehPos->x] == '#') {
+                        moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'S');
+                        break;
+                    }
+                    moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'N');
+                }
+            }
+            break;
+        case 'S':
+            if(status == MOVETOBOUDNARY) {
+                while(scanMap[vehPos->y + 1][vehPos->x] != '#' && scanMap[vehPos->y + 2][vehPos->x] != '#') {
+                    moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'S');
+                }
+                moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'N');
+                boundHandle(terrainCostLog, vehPos, scanMap, &vehicleFacingDir);
+            } else if(status == MOVEFIVE) {
+                for(int i = 0; i < 5; i++) {
+                    if(scanMap[vehPos->y + 2][vehPos->x] == '#') {
+                        moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'N');
+                        break;
+                    }
+                    moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'S');
+                }
+            }
+            break;
+        case 'E':
+            if(status == MOVETOBOUDNARY) {
+                while(scanMap[vehPos->y][vehPos->x + 1] != '#' && scanMap[vehPos->y][vehPos->x + 2] != '#') {
+                    moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'E');
+                }
+                moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'W');
+                boundHandle(terrainCostLog, vehPos, scanMap, &vehicleFacingDir);
+            } else if(status == MOVEFIVE) {
+                for(int i = 0; i < 5; i++) {
+                    if(scanMap[vehPos->y][vehPos->x + 2] == '#') {
+                        moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'W');
+                        break;
+                    }
+                    moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'E');
+                }
+            }
+            break;
+        case 'W':
+            if(status == MOVETOBOUDNARY) {
+                while(scanMap[vehPos->y][vehPos->x - 1] != '#' && scanMap[vehPos->y][vehPos->x - 2] != '#') {
+                    moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'W');
+                }
+                moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'E');
+                boundHandle(terrainCostLog, vehPos, scanMap, &vehicleFacingDir);
+            } else if(status == MOVEFIVE) {
+                for(int i = 0; i < 5; i++) {
+                    if(scanMap[vehPos->y][vehPos->x - 2] == '#') {
+                        moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'E');
+                        break;
+                    }
+                    moveScanVectorUnit(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, &vehicleFacingDir, 'W');
+                }
+            }
+            break;
+        default:
+            return vehicleFacingDir;
+    }
+    return vehicleFacingDir;
+}
+
+void autoRun(VehDataType *vehicleData, VehPosType *vehPos, terrainCostType terrainCostLog[256], char scanMap[HEIGHT][WIDTH], char exploreMap[HEIGHT][WIDTH], int *scanCounter, int *moveCounter) {
+    char vehicleFacingDir = 'N';    //for now hard coded but later make into arg
+    char vehicleOppStart;
+    switch(vehicleFacingDir) {
+        case 'N': vehicleOppStart = 'S'; break;
+        case 'S': vehicleOppStart = 'N'; break;
+        case 'E': vehicleOppStart = 'W'; break;
+        case 'W': vehicleOppStart = 'E'; break;
+        default:  return;
+    }
+    enum moveState status = MOVETOBOUDNARY;
+
+    initAuto(vehicleData, *vehPos, scanMap, scanCounter);
+    vehicleFacingDir = moveScanMode(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, vehicleFacingDir, status); //hit north boundary
+    vehicleFacingDir = moveScanMode(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, vehicleOppStart, status); //hit South boundary hard forced to be opposite of starting Dir
+
+    vehicleFacingDir = moveScanMode(vehicleData, vehPos, terrainCostLog, scanMap, exploreMap, scanCounter, moveCounter, vehicleFacingDir, status); //either west or east boundary
+
 }
