@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/project.dir/link.d"
   "CMakeFiles/project.dir/src/autoControl.c.o"
   "CMakeFiles/project.dir/src/autoControl.c.o.d"
   "CMakeFiles/project.dir/src/errorHandle.c.o"

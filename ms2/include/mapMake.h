@@ -6,21 +6,20 @@
 typedef struct {
     int x;
     int y;
-} VehPosType;
+} PosType;
 
 void mapMake(char map[HEIGHT][WIDTH]);
 
 void printMapScan(char map[HEIGHT][WIDTH],
-                VehPosType vehPos,
-                int posX,
-                int posY,
+                PosType vehPos,
+                PosType localPos,
                 char value);
 
 void printMapExplore(char map[HEIGHT][WIDTH],
-                    VehPosType vehPos,
+                    PosType vehPos,
                     char value);
 
 void printMapStatic(char map[HEIGHT][WIDTH],
-                    VehPosType vehPos);
+                    PosType vehPos);
 
 #endif
