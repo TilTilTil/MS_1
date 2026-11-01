@@ -106,7 +106,7 @@ static void stepAndScan(AutoState *a) {
     char inFront = a->scanMap[a->vehPos->y + axis.y][a->vehPos->x + axis.x];
     if (a->GGNOOBS) return;
     if(a->configOption.opt13 > 0){delay(a->configOption.opt13);}
-    *a->veh = SCRelay_Signal_Veh_AllocateToShield(a->costLog[inFront].shield);
+    if(a->costLog[inFront].shield > 0) {*a->veh = SCRelay_Signal_Veh_AllocateToShield(a->costLog[inFront].shield);};
     if(a->configOption.opt12 > 0){delay(a->configOption.opt12);}
     moveHelper(a->veh, a->vehPos, axis, a->costLog, a->scanMap, a->exploreMap, a->moveCounter, a->configOption);
 

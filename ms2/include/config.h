@@ -11,7 +11,7 @@
 #define FILL            '\1'
 #define NUM_ENDS        3
 #define END_POINT       'E'
-#define NUM_DANGER      1
+#define NUM_DANGER      100
 #define DANGER_POINT    'X'
 
 #define START_FACE      DIR_NORTH;

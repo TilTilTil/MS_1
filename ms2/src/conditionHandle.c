@@ -79,7 +79,7 @@ static int countTarget(char map[HEIGHT][WIDTH], char value) {   //super shit way
 static bool stopAndFlame( AutoState *a) { 
     (void)a; 
     printf("\nWait this mission doesn't need auto! Its Casual\n");
-    return false; 
+    return true; 
 }
 
 static bool neverStop( AutoState *a) { 
@@ -133,7 +133,7 @@ static void recoverShield( AutoState *a) {
 }
 
 static bool checkMove( AutoState *a) {
-    return *a->moveCounter < a->configOption.opt16;
+    return *a->moveCounter > a->configOption.opt16;
 }
 
 static void addMoreMoves( AutoState *a) {
@@ -144,7 +144,7 @@ static void addMoreMoves( AutoState *a) {
 }
 
 static bool checkScan( AutoState *a) {
-    return *a->scanCounter < a->configOption.opt17;
+    return *a->scanCounter > a->configOption.opt17;
 }
 
 static void addMoreScans( AutoState *a) {

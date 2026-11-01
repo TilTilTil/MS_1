@@ -50,7 +50,7 @@ void scanHelper(VehDataType *vehicleData, PosType vehPos, PosType localPos, char
         printf("Returned (scanned) terrain symbol is : %c", value);
         (*Counter)++;
         localPos = multiplyPos(localPos,step);
-        if(configOption.opt5){printMapScan(scanMap, vehPos, localPos, value);if(configOption.opt8 > 0){delay(configOption.opt9);}};    
+        if(configOption.opt5){printMapScan(scanMap, vehPos, localPos, value);if(configOption.opt8 > 0){delay(configOption.opt8);}};    
     }
 }
 
