@@ -6,15 +6,10 @@
 #include "vehControl.h"
 #include "SatComRelay.h"
 #include "mapMake.h"
-#include "errorHandle.h"
+#include "helpers.h"
 #include "autoControl.h"
-
-#define STARTSHIELD 10000
-#define FILL '\1'
-#define NUM_ENDS 3
-#define ENDPOINT 'E'
-#define NUM_DANGER 1
-#define DANGERPOINT 'X'
+#include "config.h"
+#include "condtionHandle.h"
 // static void delay(long number_of_seconds)
 // {
 //     // Storing start time
@@ -61,14 +56,6 @@ static bool isWall(char c) {
     return c == '#' || c == FILL;
 }
 
-static bool wallAhead(AutoState *s, PosType axis) {
-    return isWall(s->scanMap[s->vehPos->y + axis.y][s->vehPos->x + axis.x]) || isWall(s->scanMap[s->vehPos->y + 2*axis.y][s->vehPos->x + 2*axis.x]);
-}
-
-static bool boundsUnKnown(BoundLength Len) {
-    return (Len.top == -1 || Len.bottom == -1 || Len.right == -1 || Len.left == -1);
-}
-
 static PosType dirToAxis(DirectionType dir) {
     switch (dir) {
         case DIR_NORTH: return NORTH;
@@ -78,214 +65,15 @@ static PosType dirToAxis(DirectionType dir) {
         default:        return NORTH;
     }
 }
-static DirectionType axisToDir(PosType axis) {
-    if (axis.y < 0) return DIR_NORTH;
-    if (axis.y > 0) return DIR_SOUTH;
-    if (axis.x > 0) return DIR_EAST;
-    if (axis.x < 0) return DIR_WEST;
-}
-
-void autoConfig() {     //lowkey should put this in main
-    bool opt1 = true, opt2 = true, opt3 = true, opt4 = true, opt5 = true, opt6 = true;
-    long opt7,opt8,opt9,opt10,opt11,opt12,opt13;
-
-    printf("--- Vehicle Configuration Menu ---\n\n");
-
-    // Option chuck 1
-    if(getValidChar("\n\n1. After every action, show vehicle status / energy stats (y/n): \n", "YN") == 'Y') {
-        opt1 = true;
-    } else {
-        if(getValidChar("\n2. After every scan action, show vehicle status / energy stats (y/n): \n", "YN") == 'N') {
-            opt2 = false;
-        }
-        if(getValidChar("\n3. After every move action, show vehicle status / energy stats (y/n): \n", "YN") == 'N') {
-            opt3 = false;
-        }
-        if(getValidChar("\n4. After every shield allocation, show vehicle status / energy stats (y/n): \n", "YN") == 'N') {
-            opt4 = false;
-        }
-    }
-    // option chuck 2
-    if(getValidChar("\n5. After every scan action, display 'current map' of terrain scanned by vehicle so far (y/n): \n", "YN") == 'N') {
-        opt5 = false;
-    }
-    if(getValidChar("\n6. After every move action, display 'current map' of terrain travelled by vehicle so far (y/n): \n", "YN") == 'N') {
-        opt6 = false;
-    }
-    printf("\n7. Enter 't1' secs delay, after displaying vehicle status / energy stats: \n");
-    opt7 = getValidLongHelper();
-    printf("\n8. Enter 't2' secs delay, after displaying 'current map' of terrain scanned: \n");
-    opt8 = getValidLongHelper();
-    printf("\n9. Enter 't3' secs delay, after displaying 'current map' of terrain travelled: \n");
-    opt9 = getValidLongHelper();
-
-    //option chuck 3
-    printf("10. Enter 't4' secs delay, after any action taken by auto-pilot function: \n");
-    opt10 = getValidLongHelper();
-    if(opt10 > 0) {
-        opt11 = opt12 = opt13 = opt10;
-    } else {
-        printf("\n11. Enter 't5' secs delay, after each scan action taken by auto-pilot function: \n");
-        opt11 = getValidLongHelper();
-        printf("\n12. Enter 't6' secs delay, after each move taken by auto-pilot function: \n");
-        opt12 = getValidLongHelper();
-        printf("\n13. Enter 't7' secs delay, after each shield allocation action taken by auto-pilot function: \n");
-        opt13 = getValidLongHelper();
-    }
-    printf("\n--- Configuration Summary ---\n");
-    printf("Option 1 (All Status): %d\n", opt1);
-    printf("Option 2 (Scan Status): %d\n", opt2);
-    printf("Option 3 (Move Status): %d\n", opt3);
-    printf("Option 4 (Shield Status): %d\n", opt4);
-    printf("Option 5 (Scan Map): %d\n", opt5);
-    printf("Option 6 (Travel Map): %d\n", opt6);
-    printf("Option 7 (Status Display Delay): %ld seconds\n", opt7);
-    printf("Option 8 (Scanned Map Display Delay): %ld seconds\n", opt8);
-    printf("Option 9 (Travelled Map Display Delay): %ld seconds\n", opt9);
-    printf("Option 10 (Auto-Pilot Action Delay): %ld seconds\n", opt10);
-    printf("Option 11 (Auto-Pilot Scan Delay): %ld seconds\n", opt11);
-    printf("Option 12 (Auto-Pilot Move Delay): %ld seconds\n", opt12);
-    printf("Option 13 (Auto-Pilot Shield Allocation Delay): %ld seconds\n", opt13);
-}
-
-
-static bool eVisitedMap[HEIGHT][WIDTH];
-static int  eVisitedCount = 0;
- 
-static void stepDir(AutoState *a, PosType axis) {
-    char next = a->scanMap[a->vehPos->y + axis.y][a->vehPos->x + axis.x];
-    *a->veh = SCRelay_Signal_Veh_AllocateToShield(a->costLog[next].shield);
-    moveHelper(a->veh, a->vehPos, axis, a->costLog, a->scanMap, a->exploreMap, a->moveCounter);
-}
-
-static int sign(int v) { return (v > 0) - (v < 0); }
-
-static bool goToE(AutoState *a) {
-    for (size_t i = 0; i < sizeof(ALLAXIS) / sizeof(ALLAXIS[0]); i++) {
-        PosType path;
-         PosType steps[4];   //highest steps in a path is 4
-        int num = 0;
-        if (a->scanMap[a->vehPos->y + ALLAXIS[i].y][a->vehPos->x + ALLAXIS[i].x] == ENDPOINT && !eVisitedMap[a->vehPos->y + ALLAXIS[i].y][a->vehPos->x + ALLAXIS[i].x]) {
-            path = ALLAXIS[i];
-        } else if (a->scanMap[a->vehPos->y + ALLAXIS[i].y * 2][a->vehPos->x + ALLAXIS[i].x * 2] == ENDPOINT && !eVisitedMap[a->vehPos->y + ALLAXIS[i].y * 2][a->vehPos->x + ALLAXIS[i].x * 2]) {
-            path = (PosType){ ALLAXIS[i].x * 2, ALLAXIS[i].y * 2 };
-        } else {
-            continue;
-        }
-
-        for (int i = 0; i < abs(path.y); i++) steps[num++] = (PosType){ 0, sign(path.y) };
-        for (int i = 0; i < abs(path.x); i++) steps[num++] = (PosType){ sign(path.x), 0 };
-
-        for (int i = 0; i < num; i++) {
-            stepDir(a, steps[i]);
-        }
-        for (int i = num - 1; i >= 0; i--) {
-            stepDir(a, (PosType){ -steps[i].x, -steps[i].y });
-        }
-        eVisitedMap[a->vehPos->y + path.y][a->vehPos->x + path.x] = true;
-        eVisitedCount++;
-        return true;
-    }
-    return false;
-}
-
-static void tryVisitE(AutoState *a) {
-    if (a->GGNOOBS) return;
-    if (a->missionType == 3 || a->missionType == 5) {
-        goToE(a);
-    }
-}
-
-static int countTarget(char map[HEIGHT][WIDTH], char value) {   //super shit way to do it but it works lol
-    int count = 0;
-    for (int y = 0; y < HEIGHT; y++) {
-        for (int x = 0; x < WIDTH; x++) {
-            if (map[y][x] == value) {
-                count++;
-            }
-        }
-    }
-    return count;
-}
-
-static bool neverStop( AutoState *a) { 
-    (void)a; return false; 
-}
-
-static bool countoneE( AutoState *a) {
-    return countTarget(a->scanMap, ENDPOINT) >= 1;
-}
-
-static bool countE( AutoState *a) {
-    return countTarget(a->scanMap, ENDPOINT) >= NUM_ENDS;
-}
-
-static bool visitedOneE( AutoState *a) {
-    (void)a;
-    return eVisitedCount >= 1;
-}
- 
-static bool visitedAllE( AutoState *a) {
-    (void)a;
-    return eVisitedCount >= NUM_ENDS;
-}
-
-static bool countDanger( AutoState *a) {
-    return countTarget(a->scanMap, DANGERPOINT) >= NUM_DANGER;
-}
-
-static bool checkShield( AutoState *a) {
-    return a->veh->currShieldEnergy < 777;
-}
-
-static void recoverShield( AutoState *a) {
-    printf("\nAllocate some shield then!\n");
-    printf("Your shield by the way --> %ld\n", a->veh->totEnergyUsed);
-    *a->veh = SCRelay_Signal_Veh_AllocateToShield (getValidLongHelper());
-}
-
-static const Condition missionStatement[] = {
-    [0] = { 1, neverStop, NULL },  // 1. Casual Explore bruh bruh
-    [1] = { 1, countoneE,    NULL },  // 2. Find 1 End Point DONE
-    [2] = { 1, visitedOneE,    NULL },  // 3. Reach 1 End Point TODO DONE
-    [3] = { 1, countE,    NULL },  // 4. Find All End Points DONE
-    [4] = { 1, visitedAllE, NULL },  // 5. Reach ALL End Points TODO DONE
-    [5] = { 1, countDanger, NULL },  // 6. Find ALL Danger Points DONE
-    [6] = { 1, neverStop, NULL },  // 7. Find Map Boundaries TODO DONE
-    [7] = { 1, neverStop, NULL },  // 8. Map Everything DONE
-};
-
-static const Condition pauseConditions[] = {
-    { 1, checkShield, recoverShield},
-};
-
-static bool shouldStop(AutoState *a) {
-    if (a->GGNOOBS) return true;
-    int m = a->missionType - 1;
-    size_t n = sizeof(missionStatement) / sizeof(missionStatement[0]);
-    if (m >= 0 && (size_t)m < n && missionStatement[m].check(a)) {
-        a->GGNOOBS = true;
-        return true;
-    }
-    for (size_t i = 0; i < sizeof(pauseConditions) / sizeof(pauseConditions[0]); i++) {
-        if (pauseConditions[i].check(a)) {
-            if (getValidChar("Continue auto-pilot? (y/n): \n", "YN") == 'N') {
-                a->GGNOOBS = true;
-                return true;
-            } else {
-                pauseConditions[i].helpMe(a);
-            }
-        }
-    }
-    return false;
-}
 
 static void initAuto(AutoState *a) {
-    *a->veh = SCRelay_Signal_Veh_AllocateToShield(STARTSHIELD);
+    *a->veh = SCRelay_Signal_Veh_AllocateToShield(START_SHIELD);
     for (int i = 0; i < sizeof(ALLAXIS) / sizeof(ALLAXIS[0]); i++) {
-        scanHelper(a->veh, *a->vehPos, ALLAXIS[i], a->scanMap, true, a->scanCounter);
+        if(a->configOption.opt11 > 0){delay(a->configOption.opt11);}
+        scanHelper(a->veh, *a->vehPos, ALLAXIS[i], a->scanMap, true, a->scanCounter, a->configOption);
         if (shouldStop(a)) return;
-        scanHelper(a->veh, *a->vehPos, ALLAXIS[i], a->scanMap, false, a->scanCounter);
+        if(a->configOption.opt11 > 0){delay(a->configOption.opt11);}
+        scanHelper(a->veh, *a->vehPos, ALLAXIS[i], a->scanMap, false, a->scanCounter, a->configOption);
         if(shouldStop(a)) {return;};
     }
     tryVisitE(a);
@@ -317,13 +105,16 @@ static void stepAndScan(AutoState *a) {
     PosType axis = dirToAxis(a->facing);
     char inFront = a->scanMap[a->vehPos->y + axis.y][a->vehPos->x + axis.x];
     if (a->GGNOOBS) return;
-
+    if(a->configOption.opt13 > 0){delay(a->configOption.opt13);}
     *a->veh = SCRelay_Signal_Veh_AllocateToShield(a->costLog[inFront].shield);
-    moveHelper(a->veh, a->vehPos, axis, a->costLog, a->scanMap, a->exploreMap, a->moveCounter);
+    if(a->configOption.opt12 > 0){delay(a->configOption.opt12);}
+    moveHelper(a->veh, a->vehPos, axis, a->costLog, a->scanMap, a->exploreMap, a->moveCounter, a->configOption);
 
     for (int i = 0; i < sizeof(ALLAXIS) / sizeof(ALLAXIS[0]); i++) {
-        scanHelper(a->veh, *a->vehPos, ALLAXIS[i], a->scanMap, true, a->scanCounter);
-        scanHelper(a->veh, *a->vehPos, ALLAXIS[i], a->scanMap, false, a->scanCounter);
+        if(a->configOption.opt11 > 0){delay(a->configOption.opt11);}
+        scanHelper(a->veh, *a->vehPos, ALLAXIS[i], a->scanMap, true, a->scanCounter, a->configOption);
+        if(a->configOption.opt11 > 0){delay(a->configOption.opt11);}
+        scanHelper(a->veh, *a->vehPos, ALLAXIS[i], a->scanMap, false, a->scanCounter, a->configOption);
         if (ALLAXIS[i].x == 0 || ALLAXIS[i].y == 0) {
             for (int k = 1; k <= 2; k++) {
                 if (a->scanMap[a->vehPos->y + ALLAXIS[i].y * k][a->vehPos->x + ALLAXIS[i].x * k] == '#') {
@@ -406,7 +197,7 @@ static void boundaryLogger(AutoState *a, PosType axis) {
 
 static void runToWall(AutoState *a) {
     PosType axis = dirToAxis(a->facing);
-    while (!a->GGNOOBS && !wallAhead(a, axis)) {   // added GGNOOBS check
+    while (!a->GGNOOBS && !isWall(a->scanMap[a->vehPos->y + axis.y][a->vehPos->x + axis.x]) || !isWall(a->scanMap[a->vehPos->y + 2*axis.y][a->vehPos->x + 2*axis.x])) {
         stepAndScan(a);
     }
     if (a->GGNOOBS) return;
@@ -418,8 +209,8 @@ static void runToWall(AutoState *a) {
 
 static void runSteps(AutoState *a, int step) {
     PosType axis = dirToAxis(a->facing);
-    for (int i = 0; i < step && !a->GGNOOBS; i++) {   // added GGNOOBS check
-        if (wallAhead(a, axis)) { boundaryLogger(a, axis); break; }
+    for (int i = 0; i < step && !a->GGNOOBS; i++) {   
+        if (isWall(a->scanMap[a->vehPos->y + axis.y][a->vehPos->x + axis.x]) || isWall(a->scanMap[a->vehPos->y + 2*axis.y][a->vehPos->x + 2*axis.x])) { boundaryLogger(a, axis); break; }
         stepAndScan(a);
     }
     if (a->GGNOOBS) return;
@@ -434,10 +225,10 @@ static void sweep(AutoState *a) {
         }
 }
 
-void autoRun(VehDataType *vehicleData, PosType *vehPos, terrainCostType terrainCostLog[256], char scanMap[HEIGHT][WIDTH], char exploreMap[HEIGHT][WIDTH], int *scanCounter, int *moveCounter, int missionType) {
+void autoRun(VehDataType *vehicleData, PosType *vehPos, terrainCostType terrainCostLog[256], char scanMap[HEIGHT][WIDTH], char exploreMap[HEIGHT][WIDTH], int *scanCounter, int *moveCounter, int missionType, Option *configOption) {
     DirectionType StartFace = DIR_SOUTH;
     AutoState a = {
-        .veh = vehicleData, .vehPos = vehPos, .costLog = terrainCostLog,
+        .veh = vehicleData, .vehPos = vehPos, .costLog = terrainCostLog, .configOption = configOption,
         .scanMap = scanMap, .exploreMap = exploreMap,
         .scanCounter = scanCounter, .moveCounter = moveCounter,
         .missionType = missionType, .facing = StartFace, .bound = {-1,-1,-1,-1}, 
@@ -446,21 +237,13 @@ void autoRun(VehDataType *vehicleData, PosType *vehPos, terrainCostType terrainC
     if(missionType == 8) a.flush = true;
     initAuto(&a);
 
-    if(missionType == 7) {
-        a.flush = true;
-        runToWall(&a);
-        runToWall(&a);
-        runToWall(&a);
-        runToWall(&a);
-        runToWall(&a);
-        runToWall(&a);
-    } else {
+    if(missionType == 7) { a.flush = true; runToWall(&a); runToWall(&a); runToWall(&a); runToWall(&a); runToWall(&a); runToWall(&a); } else {
         runToWall(&a);
         a.facing = turnClockwise(StartFace, 180);
         runToWall(&a);
         runToWall(&a);
 
-        while (!a.GGNOOBS && boundsUnKnown(a.bound)) {
+        while (!a.GGNOOBS && (a.bound.top == -1 || a.bound.bottom == -1 || a.bound.right == -1 || a.bound.left == -1)) {
             chooseFacingDir(&a);
             sweep(&a);
             chooseFacingDir(&a);

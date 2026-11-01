@@ -64,7 +64,7 @@ CMakeFiles/project.dir/src/main.c.o: /home/jon/ms/ms2/src/main.c \
  /home/jon/ms/ms2/include/mapMake.h /home/jon/ms/ms2/include/config.h \
  /home/jon/ms/ms2/include/vehControl.h \
  /home/jon/ms/ms2/include/SatComRelay.h \
- /home/jon/ms/ms2/include/mapMake.h \
- /home/jon/ms/ms2/include/errorHandle.h \
+ /home/jon/ms/ms2/include/mapMake.h /home/jon/ms/ms2/include/helpers.h \
+ /home/jon/ms/ms2/include/helpers.h \
  /home/jon/ms/ms2/include/autoControl.h \
  /home/jon/ms/ms2/include/vehControl.h

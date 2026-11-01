@@ -10,14 +10,14 @@
 #include "SatComRelay.h"
 #include "mapMake.h"
 #include "vehControl.h"
-#include "errorHandle.h"
+#include "helpers.h"
 #include "autoControl.h"
 
 void sumTerrain(char map[HEIGHT][WIDTH]) {
     int count[256] = {0};
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {
-            if(map[i][j] != '\0') {
+            if(map[i][j] != '\0' && map[i][j] != FILL) {
                 count[(unsigned char)map[i][j]]++;
             }        
         }
@@ -98,11 +98,86 @@ void showUsageInstructions() {
     printf("Z  - Show vehicle status\n");
     printf("C  - Show map of terrain scanned\n");
     printf("X  - Show map of terrain travelled\n");
+    printf("O  - Configure controls\n");
 
+    printf("\nAUTO\n");
+    printf("P  - Auto mode start!\n");
+    
     printf("Note: In Map display, '_' underline indicates curr. veh. location!");
     printf("\n========================================\n");
     getValidChar("\nPress 'y' key and hit Enter to continue! ", "Y");
 }
+
+    void autoConfig(Option *configOption) {     //lowkey should put this in main
+        printf("--- Vehicle Configuration Menu ---\n\n");
+
+        // Option chuck 1
+        if(getValidChar("\n\n1. After every action, show vehicle status / energy stats (y/n): \n", "YN") == 'Y') {
+            configOption->opt2 = configOption->opt3 = configOption->opt4 = true;
+        } else {
+            if(getValidChar("\n2. After every scan action, show vehicle status / energy stats (y/n): \n", "YN") == 'N') {
+                configOption->opt2 = false;
+            }
+            if(getValidChar("\n3. After every move action, show vehicle status / energy stats (y/n): \n", "YN") == 'N') {
+                configOption->opt3 = false;
+            }
+            if(getValidChar("\n4. After every shield allocation, show vehicle status / energy stats (y/n): \n", "YN") == 'N') {
+                configOption->opt4 = false;
+            }
+        }
+        // option chuck 2
+        if(getValidChar("\n5. After every scan action, display 'current map' of terrain scanned by vehicle so far (y/n): \n", "YN") == 'N') {
+            configOption->opt5 = false;
+        }
+        if(getValidChar("\n6. After every move action, display 'current map' of terrain travelled by vehicle so far (y/n): \n", "YN") == 'N') {
+            configOption->opt6 = false;
+        }
+        printf("\n7. Enter 't1' secs delay, after displaying vehicle status / energy stats: \n");
+        configOption->opt7 = getValidLongHelper();
+        printf("\n8. Enter 't2' secs delay, after displaying 'current map' of terrain scanned: \n");
+        configOption->opt8 = getValidLongHelper();
+        printf("\n9. Enter 't3' secs delay, after displaying 'current map' of terrain travelled: \n");
+        configOption->opt9 = getValidLongHelper();
+
+        //option chuck 3
+        printf("10. Enter 't4' secs delay, after any action taken by auto-pilot function: \n");
+        configOption->opt10 = getValidLongHelper();
+        if(configOption->opt10 > 0) {
+            configOption->opt11 = configOption->opt12 = configOption->opt13 = configOption->opt10;
+        } else {
+            printf("\n11. Enter 't5' secs delay, after each scan action taken by auto-pilot function: \n");
+            configOption->opt11 = getValidLongHelper();
+            printf("\n12. Enter 't6' secs delay, after each move taken by auto-pilot function: \n");
+            configOption->opt12 = getValidLongHelper();
+            printf("\n13. Enter 't7' secs delay, after each shield allocation action taken by auto-pilot function: \n");
+            configOption->opt13 = getValidLongHelper();
+        }
+
+        //option chunk 4
+        printf("\n7. Enter 'n1' Pause auto pilot when current energy avaliable falls below: \n");
+        configOption->opt14 = getValidLongHelper();
+        printf("\n7. Enter 'n2' Pause auto pilot when current shield avaliable falls below: \n");
+        configOption->opt15 = getValidLongHelper();
+        printf("\n7. Enter 'n3' Pause auto pilot when total number of move exceeds: \n");
+        configOption->opt16 = getValidLongHelper();
+        printf("\n7. Enter 'n4' Pause auto pilot when total number of scans exceeds: \n");
+        configOption->opt17 = getValidLongHelper();
+
+        printf("\n--- Configuration Summary ---\n");
+        printf("Option 1 (All Status): %d\n", configOption->opt1);
+        printf("Option 2 (Scan Status): %d\n", configOption->opt2);
+        printf("Option 3 (Move Status): %d\n", configOption->opt3);
+        printf("Option 4 (Shield Status): %d\n", configOption->opt4);
+        printf("Option 5 (Scan Map): %d\n", configOption->opt5);
+        printf("Option 6 (Travel Map): %d\n", configOption->opt6);
+        printf("Option 7 (Status Display Delay): %ld seconds\n", configOption->opt7);
+        printf("Option 8 (Scanned Map Display Delay): %ld seconds\n", configOption->opt8);
+        printf("Option 9 (Travelled Map Display Delay): %ld seconds\n", configOption->opt9);
+        printf("Option 10 (Auto-Pilot Action Delay): %ld seconds\n", configOption->opt10);
+        printf("Option 11 (Auto-Pilot Scan Delay): %ld seconds\n", configOption->opt11);
+        printf("Option 12 (Auto-Pilot Move Delay): %ld seconds\n", configOption->opt12);
+        printf("Option 13 (Auto-Pilot Shield Allocation Delay): %ld seconds\n", configOption->opt13);
+    }
 
 int main() {
     int missionType = 0;
@@ -115,6 +190,25 @@ int main() {
     vehPos.y = ORIGINY;
     
     terrainCostType terrainCostLog[256] = {0};
+    Option configOption = {
+        .opt1  = SHOW_STATUS_AFTER_ANY_ACTION,
+        .opt2  = SHOW_STATUS_AFTER_SCAN,
+        .opt3  = SHOW_STATUS_AFTER_MOVE,
+        .opt4  = SHOW_STATUS_AFTER_SHIELD,
+        .opt5  = SHOW_MAP_AFTER_SCAN,
+        .opt6  = SHOW_MAP_AFTER_MOVE,
+        .opt7  = DELAY_AFTER_STATUS_DISPLAY,
+        .opt8  = DELAY_AFTER_SCAN_MAP,
+        .opt9  = DELAY_AFTER_TRAVEL_MAP,
+        .opt10 = DELAY_AFTER_ANY_AUTOPILOT_ACTION,
+        .opt11 = DELAY_AFTER_AUTOPILOT_SCAN,
+        .opt12 = DELAY_AFTER_AUTOPILOT_MOVE,
+        .opt13 = DELAY_AFTER_AUTOPILOT_SHIELD,
+        .opt14 = ENERGY_LIMIT,
+        .opt15 = SHIELD_LIMIT,
+        .opt16 = MOVE_LIMIT,
+        .opt17 = SCAN_LIMIT
+    };    
     char answer = '\0';
     bool radiusBoolOne = true;          //default use case is 1
     int moveCounter = 0;
@@ -126,51 +220,51 @@ int main() {
     while (answer != 'Q') {
         switch (answer = getValidChar("\n\nEnter your command (q to quit) :","WASDVQTIZCXOP12346789")) {
         case 'W':
-            moveHelper(&vehicleData, &vehPos , NORTH ,terrainCostLog ,scanMap, exploreMap, &moveCounter);
+            moveHelper(&vehicleData, &vehPos , NORTH ,terrainCostLog ,scanMap, exploreMap, &moveCounter, configOption);
             break;
 
         case 'S':			
-            moveHelper(&vehicleData, &vehPos , SOUTH ,terrainCostLog ,scanMap, exploreMap, &moveCounter);
+            moveHelper(&vehicleData, &vehPos , SOUTH ,terrainCostLog ,scanMap, exploreMap, &moveCounter, configOption);
             break;
 
         case 'A':
-            moveHelper(&vehicleData, &vehPos , WEST ,terrainCostLog ,scanMap, exploreMap, &moveCounter);
+            moveHelper(&vehicleData, &vehPos , WEST ,terrainCostLog ,scanMap, exploreMap, &moveCounter, configOption);
             break;
 
         case 'D':
-            moveHelper(&vehicleData, &vehPos , EAST ,terrainCostLog ,scanMap, exploreMap, &moveCounter);
+            moveHelper(&vehicleData, &vehPos , EAST ,terrainCostLog ,scanMap, exploreMap, &moveCounter, configOption);
             break;
 
         case '1':  
-            scanHelper(&vehicleData, vehPos, SOUTHWEST, scanMap, radiusBoolOne,&scanCounter);
+            scanHelper(&vehicleData, vehPos, SOUTHWEST, scanMap, radiusBoolOne,&scanCounter, configOption);
             break;
 
         case '2':         
-            scanHelper(&vehicleData, vehPos, SOUTH, scanMap, radiusBoolOne, &scanCounter);
+            scanHelper(&vehicleData, vehPos, SOUTH, scanMap, radiusBoolOne, &scanCounter, configOption);
             break;
 
         case '3':     
-            scanHelper(&vehicleData, vehPos, SOUTHEAST, scanMap, radiusBoolOne, &scanCounter);
+            scanHelper(&vehicleData, vehPos, SOUTHEAST, scanMap, radiusBoolOne, &scanCounter, configOption);
             break;
 
         case '4':         
-            scanHelper(&vehicleData, vehPos, WEST, scanMap, radiusBoolOne, &scanCounter);
+            scanHelper(&vehicleData, vehPos, WEST, scanMap, radiusBoolOne, &scanCounter, configOption);
             break;
 
         case '6':          
-            scanHelper(&vehicleData, vehPos, EAST, scanMap, radiusBoolOne, &scanCounter);
+            scanHelper(&vehicleData, vehPos, EAST, scanMap, radiusBoolOne, &scanCounter, configOption);
             break;
 
         case '7':           
-            scanHelper(&vehicleData, vehPos, NORTHWEST, scanMap, radiusBoolOne, &scanCounter);
+            scanHelper(&vehicleData, vehPos, NORTHWEST, scanMap, radiusBoolOne, &scanCounter, configOption);
             break;
 
         case '8':          
-            scanHelper(&vehicleData, vehPos, NORTH, scanMap, radiusBoolOne, &scanCounter);
+            scanHelper(&vehicleData, vehPos, NORTH, scanMap, radiusBoolOne, &scanCounter, configOption);
             break;
 
         case '9':           
-            scanHelper(&vehicleData, vehPos, NORTHEAST, scanMap, radiusBoolOne, &scanCounter);
+            scanHelper(&vehicleData, vehPos, NORTHEAST, scanMap, radiusBoolOne, &scanCounter, configOption);
             break;
             
         case 'T':
@@ -184,10 +278,11 @@ int main() {
         case 'I': 
             printf("\nAllocate energy to shield ( 1 to %ld ) :",vehicleData.currEnergy);  
             vehicleData = SCRelay_Signal_Veh_AllocateToShield (getValidLongHelper());
+            if(configOption.opt4){statusHelper(&vehicleData, configOption);};
             break;
         case 'Z':
             printf("\nVehicle Status / Statistics :\n");
-            printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
+            statusHelper(&vehicleData, configOption);
             break;
         case 'C':
             PosType origin = {.x = 0,.y = 0};
@@ -225,10 +320,10 @@ int main() {
             showUsageInstructions();
             break;
         case 'O':
-            autoConfig();
+            autoConfig(&configOption);
             break;
         case 'P':
-            autoRun(&vehicleData, &vehPos, terrainCostLog, scanMap, exploreMap, &scanCounter, &moveCounter, missionType);
+            autoRun(&vehicleData, &vehPos, terrainCostLog, scanMap, exploreMap, &scanCounter, &moveCounter, missionType, &configOption);
             break;
         }
     }

@@ -153,29 +153,53 @@ src/autoControl.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/src/autoControl.c.s
 .PHONY : src/autoControl.c.s
 
-src/errorHandle.o: src/errorHandle.c.o
-.PHONY : src/errorHandle.o
+src/conditionHandle.o: src/conditionHandle.c.o
+.PHONY : src/conditionHandle.o
 
 # target to build an object file
-src/errorHandle.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/src/errorHandle.c.o
-.PHONY : src/errorHandle.c.o
+src/conditionHandle.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/src/conditionHandle.c.o
+.PHONY : src/conditionHandle.c.o
 
-src/errorHandle.i: src/errorHandle.c.i
-.PHONY : src/errorHandle.i
+src/conditionHandle.i: src/conditionHandle.c.i
+.PHONY : src/conditionHandle.i
 
 # target to preprocess a source file
-src/errorHandle.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/src/errorHandle.c.i
-.PHONY : src/errorHandle.c.i
+src/conditionHandle.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/src/conditionHandle.c.i
+.PHONY : src/conditionHandle.c.i
 
-src/errorHandle.s: src/errorHandle.c.s
-.PHONY : src/errorHandle.s
+src/conditionHandle.s: src/conditionHandle.c.s
+.PHONY : src/conditionHandle.s
 
 # target to generate assembly for a file
-src/errorHandle.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/src/errorHandle.c.s
-.PHONY : src/errorHandle.c.s
+src/conditionHandle.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/src/conditionHandle.c.s
+.PHONY : src/conditionHandle.c.s
+
+src/helpers.o: src/helpers.c.o
+.PHONY : src/helpers.o
+
+# target to build an object file
+src/helpers.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/src/helpers.c.o
+.PHONY : src/helpers.c.o
+
+src/helpers.i: src/helpers.c.i
+.PHONY : src/helpers.i
+
+# target to preprocess a source file
+src/helpers.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/src/helpers.c.i
+.PHONY : src/helpers.c.i
+
+src/helpers.s: src/helpers.c.s
+.PHONY : src/helpers.s
+
+# target to generate assembly for a file
+src/helpers.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/src/helpers.c.s
+.PHONY : src/helpers.c.s
 
 src/main.o: src/main.c.o
 .PHONY : src/main.o
@@ -261,9 +285,12 @@ help:
 	@echo "... src/autoControl.o"
 	@echo "... src/autoControl.i"
 	@echo "... src/autoControl.s"
-	@echo "... src/errorHandle.o"
-	@echo "... src/errorHandle.i"
-	@echo "... src/errorHandle.s"
+	@echo "... src/conditionHandle.o"
+	@echo "... src/conditionHandle.i"
+	@echo "... src/conditionHandle.s"
+	@echo "... src/helpers.o"
+	@echo "... src/helpers.i"
+	@echo "... src/helpers.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

@@ -18,7 +18,8 @@ add_executable(project
     src/mapMake.c
     src/vehControl.c
     src/autoControl.c
-    src/errorHandle.c
+    src/helpers.c
+    src/conditionHandle.c
     ${LIB_OBJECTS}
 )
 

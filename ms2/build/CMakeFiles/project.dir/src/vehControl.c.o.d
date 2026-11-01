@@ -27,6 +27,8 @@ CMakeFiles/project.dir/src/vehControl.c.o: \
  /home/jon/ms/ms2/include/vehControl.h /home/jon/ms/ms2/include/config.h \
  /usr/lib/gcc/x86_64-linux-gnu/15/include/stdbool.h \
  /home/jon/ms/ms2/include/SatComRelay.h \
- /home/jon/ms/ms2/include/mapMake.h \
+ /home/jon/ms/ms2/include/mapMake.h /home/jon/ms/ms2/include/helpers.h \
  /home/jon/ms/ms2/include/SatComRelay.h \
- /home/jon/ms/ms2/include/mapMake.h
+ /home/jon/ms/ms2/include/mapMake.h \
+ /home/jon/ms/ms2/include/autoControl.h \
+ /home/jon/ms/ms2/include/vehControl.h /home/jon/ms/ms2/include/helpers.h

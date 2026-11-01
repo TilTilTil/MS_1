@@ -4,8 +4,9 @@
 CMakeFiles/project.dir/src/autoControl.c.o: /home/jon/ms/ms2/src/autoControl.c \
   /home/jon/ms/ms2/include/SatComRelay.h \
   /home/jon/ms/ms2/include/autoControl.h \
+  /home/jon/ms/ms2/include/condtionHandle.h \
   /home/jon/ms/ms2/include/config.h \
-  /home/jon/ms/ms2/include/errorHandle.h \
+  /home/jon/ms/ms2/include/helpers.h \
   /home/jon/ms/ms2/include/mapMake.h \
   /home/jon/ms/ms2/include/vehControl.h \
   /usr/include/alloca.h \
@@ -72,7 +73,14 @@ CMakeFiles/project.dir/src/autoControl.c.o: /home/jon/ms/ms2/src/autoControl.c \
   /usr/lib/gcc/x86_64-linux-gnu/15/include/stdbool.h \
   /usr/lib/gcc/x86_64-linux-gnu/15/include/stddef.h
 
-CMakeFiles/project.dir/src/errorHandle.c.o: /home/jon/ms/ms2/src/errorHandle.c \
+CMakeFiles/project.dir/src/conditionHandle.c.o: /home/jon/ms/ms2/src/conditionHandle.c \
+  /home/jon/ms/ms2/include/SatComRelay.h \
+  /home/jon/ms/ms2/include/autoControl.h \
+  /home/jon/ms/ms2/include/condtionHandle.h \
+  /home/jon/ms/ms2/include/config.h \
+  /home/jon/ms/ms2/include/helpers.h \
+  /home/jon/ms/ms2/include/mapMake.h \
+  /home/jon/ms/ms2/include/vehControl.h \
   /usr/include/alloca.h \
   /usr/include/ctype.h \
   /usr/include/endian.h \
@@ -81,8 +89,6 @@ CMakeFiles/project.dir/src/errorHandle.c.o: /home/jon/ms/ms2/src/errorHandle.c \
   /usr/include/stdc-predef.h \
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
-  /usr/include/string.h \
-  /usr/include/strings.h \
   /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
   /usr/include/x86_64-linux-gnu/bits/byteswap.h \
   /usr/include/x86_64-linux-gnu/bits/endian.h \
@@ -132,13 +138,83 @@ CMakeFiles/project.dir/src/errorHandle.c.o: /home/jon/ms/ms2/src/errorHandle.c \
   /usr/include/x86_64-linux-gnu/sys/select.h \
   /usr/include/x86_64-linux-gnu/sys/types.h \
   /usr/lib/gcc/x86_64-linux-gnu/15/include/stdarg.h \
+  /usr/lib/gcc/x86_64-linux-gnu/15/include/stdbool.h \
+  /usr/lib/gcc/x86_64-linux-gnu/15/include/stddef.h
+
+CMakeFiles/project.dir/src/helpers.c.o: /home/jon/ms/ms2/src/helpers.c \
+  /home/jon/ms/ms2/include/SatComRelay.h \
+  /home/jon/ms/ms2/include/helpers.h \
+  /usr/include/alloca.h \
+  /usr/include/ctype.h \
+  /usr/include/endian.h \
+  /usr/include/features-time64.h \
+  /usr/include/features.h \
+  /usr/include/stdc-predef.h \
+  /usr/include/stdio.h \
+  /usr/include/stdlib.h \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /usr/include/time.h \
+  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+  /usr/include/x86_64-linux-gnu/bits/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/endianness.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn.h \
+  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/include/x86_64-linux-gnu/bits/long-double.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+  /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
+  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+  /usr/include/x86_64-linux-gnu/bits/time64.h \
+  /usr/include/x86_64-linux-gnu/bits/timesize.h \
+  /usr/include/x86_64-linux-gnu/bits/types.h \
+  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/once_flag.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+  /usr/include/x86_64-linux-gnu/sys/select.h \
+  /usr/include/x86_64-linux-gnu/sys/types.h \
+  /usr/lib/gcc/x86_64-linux-gnu/15/include/stdarg.h \
+  /usr/lib/gcc/x86_64-linux-gnu/15/include/stdbool.h \
   /usr/lib/gcc/x86_64-linux-gnu/15/include/stddef.h
 
 CMakeFiles/project.dir/src/main.c.o: /home/jon/ms/ms2/src/main.c \
   /home/jon/ms/ms2/include/SatComRelay.h \
   /home/jon/ms/ms2/include/autoControl.h \
   /home/jon/ms/ms2/include/config.h \
-  /home/jon/ms/ms2/include/errorHandle.h \
+  /home/jon/ms/ms2/include/helpers.h \
   /home/jon/ms/ms2/include/mapMake.h \
   /home/jon/ms/ms2/include/vehControl.h \
   /usr/include/alloca.h \
@@ -246,7 +322,9 @@ CMakeFiles/project.dir/src/mapMake.c.o: /home/jon/ms/ms2/src/mapMake.c \
 
 CMakeFiles/project.dir/src/vehControl.c.o: /home/jon/ms/ms2/src/vehControl.c \
   /home/jon/ms/ms2/include/SatComRelay.h \
+  /home/jon/ms/ms2/include/autoControl.h \
   /home/jon/ms/ms2/include/config.h \
+  /home/jon/ms/ms2/include/helpers.h \
   /home/jon/ms/ms2/include/mapMake.h \
   /home/jon/ms/ms2/include/vehControl.h \
   /usr/include/features-time64.h \
@@ -301,7 +379,8 @@ project: /home/jon/ms/ms2/lib/ConfigSettings.o \
   /usr/lib/x86_64-linux-gnu/libreadline.so \
   /usr/lib/x86_64-linux-gnu/libtinfo.so.6 \
   CMakeFiles/project.dir/src/autoControl.c.o \
-  CMakeFiles/project.dir/src/errorHandle.c.o \
+  CMakeFiles/project.dir/src/conditionHandle.c.o \
+  CMakeFiles/project.dir/src/helpers.c.o \
   CMakeFiles/project.dir/src/main.c.o \
   CMakeFiles/project.dir/src/mapMake.c.o \
   CMakeFiles/project.dir/src/vehControl.c.o
@@ -311,7 +390,7 @@ CMakeFiles/project.dir/src/vehControl.c.o:
 
 CMakeFiles/project.dir/src/mapMake.c.o:
 
-CMakeFiles/project.dir/src/errorHandle.c.o:
+CMakeFiles/project.dir/src/conditionHandle.c.o:
 
 /usr/lib/gcc/x86_64-linux-gnu/15/libgcc.a:
 
@@ -320,6 +399,8 @@ CMakeFiles/project.dir/src/errorHandle.c.o:
 /usr/lib/x86_64-linux-gnu/crti.o:
 
 /usr/lib/x86_64-linux-gnu/Scrt1.o:
+
+CMakeFiles/project.dir/src/helpers.c.o:
 
 CMakeFiles/project.dir/src/autoControl.c.o:
 
@@ -349,7 +430,9 @@ CMakeFiles/project.dir/src/autoControl.c.o:
 
 /usr/include/strings.h:
 
-/home/jon/ms/ms2/src/errorHandle.c:
+/home/jon/ms/ms2/src/helpers.c:
+
+/home/jon/ms/ms2/src/conditionHandle.c:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
 
@@ -368,8 +451,6 @@ CMakeFiles/project.dir/src/autoControl.c.o:
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
-
-/usr/include/time.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
@@ -397,15 +478,19 @@ CMakeFiles/project.dir/src/autoControl.c.o:
 
 /usr/include/x86_64-linux-gnu/bits/endian.h:
 
-/usr/include/x86_64-linux-gnu/bits/types.h:
-
-/usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
-
-/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
+/usr/include/time.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
-/home/jon/ms/ms2/include/errorHandle.h:
+/usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
+
+/usr/include/x86_64-linux-gnu/bits/types.h:
+
+/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
+
+/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/15/include/stddef.h:
 
@@ -427,12 +512,6 @@ CMakeFiles/project.dir/src/autoControl.c.o:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
 
-/home/jon/ms/ms2/include/vehControl.h:
-
-/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
-
 /home/jon/ms/ms2/include/config.h:
 
 /usr/lib/x86_64-linux-gnu/libtinfo.so.6:
@@ -443,19 +522,21 @@ CMakeFiles/project.dir/src/autoControl.c.o:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
 
+/home/jon/ms/ms2/include/helpers.h:
+
 /usr/include/features.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
 
-/usr/include/alloca.h:
+/home/jon/ms/ms2/include/vehControl.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+/home/jon/ms/ms2/include/condtionHandle.h:
 
-/usr/include/x86_64-linux-gnu/bits/time64.h:
+/usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+/usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
 /usr/include/features-time64.h:
 
@@ -468,6 +549,18 @@ CMakeFiles/project.dir/src/autoControl.c.o:
 /home/jon/ms/ms2/lib/ExpReport.o:
 
 /usr/include/x86_64-linux-gnu/bits/types/once_flag.h:
+
+/usr/include/alloca.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/time64.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
+
+/usr/include/ctype.h:
 
 /usr/include/stdc-predef.h:
 
@@ -503,10 +596,6 @@ CMakeFiles/project.dir/src/autoControl.c.o:
 
 /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
 
-/usr/include/ctype.h:
-
-/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
-
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
 
 /usr/include/x86_64-linux-gnu/bits/byteswap.h:
@@ -524,7 +613,3 @@ CMakeFiles/project.dir/src/main.c.o:
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
-
-/usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/time_t.h:

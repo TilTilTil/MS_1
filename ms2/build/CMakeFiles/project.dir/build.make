@@ -128,19 +128,33 @@ CMakeFiles/project.dir/src/autoControl.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/project.dir/src/autoControl.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/jon/ms/ms2/src/autoControl.c -o CMakeFiles/project.dir/src/autoControl.c.s
 
-CMakeFiles/project.dir/src/errorHandle.c.o: CMakeFiles/project.dir/flags.make
-CMakeFiles/project.dir/src/errorHandle.c.o: /home/jon/ms/ms2/src/errorHandle.c
-CMakeFiles/project.dir/src/errorHandle.c.o: CMakeFiles/project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jon/ms/ms2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/project.dir/src/errorHandle.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/project.dir/src/errorHandle.c.o -MF CMakeFiles/project.dir/src/errorHandle.c.o.d -o CMakeFiles/project.dir/src/errorHandle.c.o -c /home/jon/ms/ms2/src/errorHandle.c
+CMakeFiles/project.dir/src/helpers.c.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/src/helpers.c.o: /home/jon/ms/ms2/src/helpers.c
+CMakeFiles/project.dir/src/helpers.c.o: CMakeFiles/project.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jon/ms/ms2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/project.dir/src/helpers.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/project.dir/src/helpers.c.o -MF CMakeFiles/project.dir/src/helpers.c.o.d -o CMakeFiles/project.dir/src/helpers.c.o -c /home/jon/ms/ms2/src/helpers.c
 
-CMakeFiles/project.dir/src/errorHandle.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/project.dir/src/errorHandle.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/jon/ms/ms2/src/errorHandle.c > CMakeFiles/project.dir/src/errorHandle.c.i
+CMakeFiles/project.dir/src/helpers.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/project.dir/src/helpers.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/jon/ms/ms2/src/helpers.c > CMakeFiles/project.dir/src/helpers.c.i
 
-CMakeFiles/project.dir/src/errorHandle.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/project.dir/src/errorHandle.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/jon/ms/ms2/src/errorHandle.c -o CMakeFiles/project.dir/src/errorHandle.c.s
+CMakeFiles/project.dir/src/helpers.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/project.dir/src/helpers.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/jon/ms/ms2/src/helpers.c -o CMakeFiles/project.dir/src/helpers.c.s
+
+CMakeFiles/project.dir/src/conditionHandle.c.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/src/conditionHandle.c.o: /home/jon/ms/ms2/src/conditionHandle.c
+CMakeFiles/project.dir/src/conditionHandle.c.o: CMakeFiles/project.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jon/ms/ms2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/project.dir/src/conditionHandle.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/project.dir/src/conditionHandle.c.o -MF CMakeFiles/project.dir/src/conditionHandle.c.o.d -o CMakeFiles/project.dir/src/conditionHandle.c.o -c /home/jon/ms/ms2/src/conditionHandle.c
+
+CMakeFiles/project.dir/src/conditionHandle.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/project.dir/src/conditionHandle.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/jon/ms/ms2/src/conditionHandle.c > CMakeFiles/project.dir/src/conditionHandle.c.i
+
+CMakeFiles/project.dir/src/conditionHandle.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/project.dir/src/conditionHandle.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/jon/ms/ms2/src/conditionHandle.c -o CMakeFiles/project.dir/src/conditionHandle.c.s
 
 # Object files for target project
 project_OBJECTS = \
@@ -148,7 +162,8 @@ project_OBJECTS = \
 "CMakeFiles/project.dir/src/mapMake.c.o" \
 "CMakeFiles/project.dir/src/vehControl.c.o" \
 "CMakeFiles/project.dir/src/autoControl.c.o" \
-"CMakeFiles/project.dir/src/errorHandle.c.o"
+"CMakeFiles/project.dir/src/helpers.c.o" \
+"CMakeFiles/project.dir/src/conditionHandle.c.o"
 
 # External object files for target project
 project_EXTERNAL_OBJECTS = \
@@ -166,7 +181,8 @@ project: CMakeFiles/project.dir/src/main.c.o
 project: CMakeFiles/project.dir/src/mapMake.c.o
 project: CMakeFiles/project.dir/src/vehControl.c.o
 project: CMakeFiles/project.dir/src/autoControl.c.o
-project: CMakeFiles/project.dir/src/errorHandle.c.o
+project: CMakeFiles/project.dir/src/helpers.c.o
+project: CMakeFiles/project.dir/src/conditionHandle.c.o
 project: /home/jon/ms/ms2/lib/ConfigSettings.o
 project: /home/jon/ms/ms2/lib/ExpReport.o
 project: /home/jon/ms/ms2/lib/FileUtil.o
@@ -180,7 +196,7 @@ project: CMakeFiles/project.dir/build.make
 project: CMakeFiles/project.dir/compiler_depend.ts
 project: /usr/lib/x86_64-linux-gnu/libreadline.so
 project: CMakeFiles/project.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/jon/ms/ms2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable project"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/jon/ms/ms2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking C executable project"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/project.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

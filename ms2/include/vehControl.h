@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include "SatComRelay.h"
 #include "mapMake.h"
+#include "helpers.h"
 
 typedef struct{
     int energy;
@@ -17,7 +18,8 @@ void scanHelper(VehDataType *vehicleData,
                 PosType localPos,
                 char scanMap[HEIGHT][WIDTH], 
                 bool radiusBoolOne, 
-                int *scanCounter);
+                int *scanCounter,
+                Option configOption);
 
 void moveHelper(VehDataType *vehicleData, 
                 PosType *vehPos, 
@@ -25,6 +27,8 @@ void moveHelper(VehDataType *vehicleData,
                 terrainCostType terrainCostLog[256],
                 char scanMap[HEIGHT][WIDTH], 
                 char exploreMap[HEIGHT][WIDTH], 
-                int *moveCounter);
+                int *moveCounter,
+                Option configOption);
+
 
 #endif

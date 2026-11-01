@@ -6,6 +6,7 @@
 #include "SatComRelay.h"
 #include "mapMake.h"
 #include "vehControl.h"
+#include "helpers.h"
 
 typedef enum {
     DIR_NORTH,
@@ -28,33 +29,23 @@ typedef struct {
 } BoundLength;
 
 typedef struct {
-    VehDataType     *veh;
-    PosType         *vehPos;
-    DirectionType    facing;
-    BoundLength      bound;
+    VehDataType *veh;
+    PosType *vehPos;
+    DirectionType facing;
+    BoundLength bound;
     terrainCostType *costLog;
-    char           (*scanMap)[WIDTH];
-    char           (*exploreMap)[WIDTH];
-    char             target;
-    int             *scanCounter;
-    int             *moveCounter;
-    int             missionType;
-    bool             flush;
-    bool            GGNOOBS;
+    Option configOption;
+    char (*scanMap)[WIDTH];
+    char (*exploreMap)[WIDTH];
+    char target;
+    int *scanCounter;
+    int *moveCounter;
+    int missionType;
+    bool  flush;
+    bool GGNOOBS;
     bool eVisited[HEIGHT][WIDTH];
-    int  eVisitedCount; 
+    int  eVisitedCount;
 } AutoState;
-
-typedef bool (*exitOrPause)( AutoState *);
-typedef void (*Unpause)( AutoState *);
-
-typedef struct { 
-    const char missionType; 
-    exitOrPause check; 
-    Unpause helpMe;
-} Condition;
-
-void autoConfig();
 
 void autoRun(
     VehDataType *vehicleData,
@@ -64,6 +55,7 @@ void autoRun(
     char exploreMap[HEIGHT][WIDTH],
     int *scanCounter,
     int *moveCounter,
-    int missionType
-);
+    int missionType,
+    Option *configOption);
+
 #endif
