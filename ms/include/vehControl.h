@@ -6,20 +6,25 @@
 #include "SatComRelay.h"
 #include "mapMake.h"
 
+typedef struct{
+    int energy;
+    int shield;
+    int totalCost;
+}terrainCostType;
+
 void scanHelper(VehDataType *vehicleData, 
-                VehPosType vehPos, 
+                PosType vehPos, 
+                PosType localPos,
                 char scanMap[HEIGHT][WIDTH], 
                 bool radiusBoolOne, 
-                int localX, 
-                int localY,
                 int *scanCounter);
 
 void moveHelper(VehDataType *vehicleData, 
-                VehPosType *vehPos, 
+                PosType *vehPos,
+                PosType localPos,
+                terrainCostType terrainCostLog[256],
                 char scanMap[HEIGHT][WIDTH], 
                 char exploreMap[HEIGHT][WIDTH], 
-                int localX, 
-                int localY,
                 int *moveCounter);
 
 #endif

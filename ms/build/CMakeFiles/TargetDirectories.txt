@@ -1,3 +1,3 @@
-/home/jon/main/ms/build/CMakeFiles/project.dir
-/home/jon/main/ms/build/CMakeFiles/edit_cache.dir
-/home/jon/main/ms/build/CMakeFiles/rebuild_cache.dir
+/home/jon/ms/ms/build/CMakeFiles/project.dir
+/home/jon/ms/ms/build/CMakeFiles/edit_cache.dir
+/home/jon/ms/ms/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/jon/ms/ms/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

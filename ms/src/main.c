@@ -5,9 +5,13 @@
 #include <ctype.h>
 #include <string.h>
 
+#include <readline/readline.h>
+#include <readline/history.h>
+
 #include "SatComRelay.h"
 #include "mapMake.h"
 #include "vehControl.h"
+#include "config.h"
 char getValidChar(const char *prompt, const char *validChars) {
     char input[16];
 
@@ -26,21 +30,6 @@ char getValidChar(const char *prompt, const char *validChars) {
     }
 }
 
-// void sumTerrain(char *TerrainArray, int terrainCount) {
-//     int count[256] = {0};
-
-//     for(int i = 0; i < terrainCount; i++) {
-//         if(TerrainArray[i] != '\0') {
-//             count[TerrainArray[i]]++;
-//         }
-//     }
-//     for (int i = 0; i < 256; i++) {
-//         if (count[i] > 0) {
-//             printf("Type '%c': %d\n", i, count[i]);
-//         }
-//     }
-// }
-
 void sumTerrain(char map[HEIGHT][WIDTH]) {
     int count[256] = {0};
     for (int i = 0; i < HEIGHT; i++) {
@@ -57,16 +46,29 @@ void sumTerrain(char map[HEIGHT][WIDTH]) {
     }
 }
 
+char *trimFile(char *s) {
+    if (!s) return s;
+    while (isspace((unsigned char)*s)) s++;
+    if (*s == '\0') return s;
+    char *end = s + strlen(s) - 1;
+    while (end > s && isspace((unsigned char)*end)) end--;
+    *(end + 1) = '\0';
+
+    return s;
+}
 
 VehDataType initVehicle() {
-    char scenarioFile[256];
-    bool isFileEncrypted;
-    bool randomizeStartPosition;
-    int missionType;
+char scenarioFile[256] = {0};
+    bool isFileEncrypted = false;
+    bool randomizeStartPosition = false;
+    int missionType = 0;
 
-    printf("\n\nPlease enter the scenario file's name:\t");
-    fgets(scenarioFile, sizeof(scenarioFile), stdin);
-    scenarioFile[strcspn(scenarioFile, "\n")] = '\0';
+    char *input = readline("\n\nPlease enter the scenario file's name:\t");
+    if (input) {
+        char *trimmed = trimFile(input);
+        snprintf(scenarioFile, sizeof(scenarioFile), "%s", trimmed);
+        free(input);
+    }
 
     if(getValidChar("\n\nIs the scenario file encrypted?\t(y/n): ", "YN") == 'Y') {isFileEncrypted = true;} else {isFileEncrypted = false;}
     if(getValidChar("\n\nDo you wish to randomize start position?\t(y/n): ", "YN") == 'Y') {randomizeStartPosition = true;} else {randomizeStartPosition = false;}
@@ -125,7 +127,9 @@ int main() {
     char scanMap[HEIGHT][WIDTH];
     char exploreMap[HEIGHT][WIDTH];
 
-    VehPosType vehPos;
+    terrainCostType terrainCostLog[256] = {0};
+
+    PosType vehPos;
     vehPos.x = WIDTH/2;
     vehPos.y = HEIGHT/2;
     
@@ -140,51 +144,51 @@ int main() {
     while (answer != 'Q') {
         switch (answer = getValidChar("\n\nEnter your command (q to quit) :","WASDVQTIZCX12346789")) {
         case 'W':
-            moveHelper(&vehicleData, &vehPos ,scanMap, exploreMap, 0, 1, &moveCounter);
+            moveHelper(&vehicleData, &vehPos , NORTH ,terrainCostLog ,scanMap, exploreMap, &moveCounter);
             break;
-         
+
         case 'S':			
-            moveHelper(&vehicleData, &vehPos ,scanMap, exploreMap, 0, -1, &moveCounter);
+            moveHelper(&vehicleData, &vehPos , SOUTH ,terrainCostLog ,scanMap, exploreMap, &moveCounter);
             break;
 
         case 'A':
-            moveHelper(&vehicleData, &vehPos ,scanMap, exploreMap, -1, 0, &moveCounter);
+            moveHelper(&vehicleData, &vehPos , WEST ,terrainCostLog ,scanMap, exploreMap, &moveCounter);
             break;
 
         case 'D':
-            moveHelper(&vehicleData, &vehPos ,scanMap, exploreMap, 1, 0, &moveCounter);
+            moveHelper(&vehicleData, &vehPos , EAST ,terrainCostLog ,scanMap, exploreMap, &moveCounter);
             break;
 
-        case '1':    
-            scanHelper(&vehicleData, vehPos, scanMap, radiusBoolOne, -1, -1, &scanCounter);
+        case '1':  
+            scanHelper(&vehicleData, vehPos, SOUTHWEST, scanMap, radiusBoolOne,&scanCounter);
             break;
 
         case '2':         
-            scanHelper(&vehicleData, vehPos, scanMap, radiusBoolOne, 0, -1, &scanCounter);
+            scanHelper(&vehicleData, vehPos, SOUTH, scanMap, radiusBoolOne, &scanCounter);
             break;
 
         case '3':     
-            scanHelper(&vehicleData, vehPos, scanMap, radiusBoolOne, 1, -1, &scanCounter);
+            scanHelper(&vehicleData, vehPos, SOUTHEAST, scanMap, radiusBoolOne, &scanCounter);
             break;
 
         case '4':         
-            scanHelper(&vehicleData, vehPos, scanMap, radiusBoolOne, -1, 0, &scanCounter);
+            scanHelper(&vehicleData, vehPos, WEST, scanMap, radiusBoolOne, &scanCounter);
             break;
 
         case '6':          
-            scanHelper(&vehicleData, vehPos, scanMap, radiusBoolOne, 1, 0, &scanCounter);
+            scanHelper(&vehicleData, vehPos, EAST, scanMap, radiusBoolOne, &scanCounter);
             break;
 
         case '7':           
-            scanHelper(&vehicleData, vehPos, scanMap, radiusBoolOne, -1, 1, &scanCounter);
+            scanHelper(&vehicleData, vehPos, NORTHWEST, scanMap, radiusBoolOne, &scanCounter);
             break;
 
         case '8':          
-            scanHelper(&vehicleData, vehPos, scanMap, radiusBoolOne, 0, 1, &scanCounter);
+            scanHelper(&vehicleData, vehPos, NORTH, scanMap, radiusBoolOne, &scanCounter);
             break;
 
         case '9':           
-            scanHelper(&vehicleData, vehPos, scanMap, radiusBoolOne, 1, 1, &scanCounter);
+            scanHelper(&vehicleData, vehPos, NORTHEAST, scanMap, radiusBoolOne, &scanCounter);
             break;
             
         case 'T':
@@ -207,7 +211,8 @@ int main() {
             printf("\nInitial Energy: %ld, Total Energy Used: %ld, Energy left: %ld, Shield Energy Left: %ld\n",vehicleData.initialEnergy,vehicleData.totEnergyUsed,vehicleData.currEnergy,vehicleData.currShieldEnergy);
             break;
         case 'C':
-            printMapScan(scanMap, vehPos, 0, 0, '\0');
+            PosType origin = {.x = 0,.y = 0};
+            printMapScan(scanMap, vehPos, origin, '\0');
             break;
         case 'X':
             printMapStatic(exploreMap,vehPos);
@@ -229,6 +234,12 @@ int main() {
             sumTerrain(scanMap);
             printf("\n\n[Terrain Types Explored ]\n\n");
             sumTerrain(exploreMap);
+            printf("\n");
+            for (int i = 0; i < 256; i++) {
+                if (terrainCostLog[i].totalCost > 0) {
+                    printf("Type '%c': %d : %d : %d\n", i, terrainCostLog[i].energy,terrainCostLog[i].shield,terrainCostLog[i].totalCost);
+                }
+            }
             SCRelay_Signal_Veh_Close();
             break;              
         case 'V':
