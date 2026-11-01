@@ -197,7 +197,7 @@ static void boundaryLogger(AutoState *a, PosType axis) {
 
 static void runToWall(AutoState *a) {
     PosType axis = dirToAxis(a->facing);
-    while (!a->GGNOOBS && !isWall(a->scanMap[a->vehPos->y + axis.y][a->vehPos->x + axis.x]) || !isWall(a->scanMap[a->vehPos->y + 2*axis.y][a->vehPos->x + 2*axis.x])) {
+    while (!a->GGNOOBS && !isWall(a->scanMap[a->vehPos->y + axis.y][a->vehPos->x + axis.x]) && !isWall(a->scanMap[a->vehPos->y + 2*axis.y][a->vehPos->x + 2*axis.x])) {
         stepAndScan(a);
     }
     if (a->GGNOOBS) return;
@@ -226,9 +226,9 @@ static void sweep(AutoState *a) {
 }
 
 void autoRun(VehDataType *vehicleData, PosType *vehPos, terrainCostType terrainCostLog[256], char scanMap[HEIGHT][WIDTH], char exploreMap[HEIGHT][WIDTH], int *scanCounter, int *moveCounter, int missionType, Option *configOption) {
-    DirectionType StartFace = DIR_SOUTH;
+    DirectionType StartFace = START_FACE;
     AutoState a = {
-        .veh = vehicleData, .vehPos = vehPos, .costLog = terrainCostLog, .configOption = configOption,
+        .veh = vehicleData, .vehPos = vehPos, .costLog = terrainCostLog, .configOption = *configOption,
         .scanMap = scanMap, .exploreMap = exploreMap,
         .scanCounter = scanCounter, .moveCounter = moveCounter,
         .missionType = missionType, .facing = StartFace, .bound = {-1,-1,-1,-1}, 

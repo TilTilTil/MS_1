@@ -3,6 +3,18 @@
 
 #include "SatComRelay.h"
 
+#define NORTH     ((PosType){.x =  0, .y = -1})
+#define SOUTH     ((PosType){.x =  0, .y =  1})
+#define EAST      ((PosType){.x =  1, .y =  0})
+#define WEST      ((PosType){.x = -1, .y =  0})
+
+#define NORTHWEST ((PosType){.x = -1, .y = -1})
+#define NORTHEAST ((PosType){.x =  1, .y = -1})
+#define SOUTHWEST ((PosType){.x = -1, .y =  1})
+#define SOUTHEAST ((PosType){.x =  1, .y =  1})
+
+#define ALLAXIS ((PosType[8]){NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST})
+
 typedef struct {
     bool opt1;
     bool opt2;
