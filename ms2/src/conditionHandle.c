@@ -166,7 +166,10 @@ static const Condition missionStatement[] = {
 };
 
 static const Condition pauseConditions[] = {
+    { 1, checkEnergy, addEnergyLimit},
     { 1, checkShield, recoverShield},
+    { 1, checkMove, addMoreMoves},
+    { 1, checkScan, addMoreScans},
 };
 
 bool shouldStop(AutoState *a) {
