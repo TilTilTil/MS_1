@@ -1,5 +1,13 @@
 # MS_1 & MS_2
 
+### PACKAGES
+
+Do download readline:
+
+```bash
+sudo apt install libreadline-dev
+```
+
 ## COMPILE
 
 ### 1. First Compile / Clean Rebuild
@@ -34,10 +42,9 @@ Alternatively, compile manually using GCC:
 
 ```bash
 gcc -Wall -Wextra -Iinclude \
-    src/main.c \
-    src/mapMake.c \
-    src/vehControl.c \
+    src/*.c \
     lib/*.o \
+    -lreadline \
     -o build/project
 ```
 
