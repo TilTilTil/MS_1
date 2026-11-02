@@ -10,25 +10,6 @@
 #include "autoControl.h"
 #include "config.h"
 #include "condtionHandle.h"
-// static void delay(long number_of_seconds)
-// {
-//     // Storing start time
-//     clock_t start_time = clock();
-
-//     // Looping till required time is not achieved
-//     while (clock() - start_time < number_of_seconds * CLOCKS_PER_SEC)
-//         ;
-// }
-
-// static void scanDelay(VehDataType *vehicleData, VehPosType vehPos, char scanMap[HEIGHT][WIDTH], bool radiusBoolOne, int localX, int localY, int *Counter, long *time) {
-//     scanHelper(vehicleData, vehPos, scanMap, radiusBoolOne, localX, localY, Counter);
-//     delay(time);
-// }
-
-// static void moveDelay(VehDataType *vehicleData, VehPosType *vehPos, char scanMap[HEIGHT][WIDTH], char exploreMap[HEIGHT][WIDTH], int localX, int localY, int *Counter, long *time) {
-//     moveHelper(vehicleData, vehPos, scanMap, exploreMap, localX, localY, Counter);
-//     delay(time);
-// }
 
 static DirectionType turnClockwise(DirectionType dir, int degrees) {
     return (dir + degrees / 90) % 4;
@@ -69,10 +50,8 @@ static PosType dirToAxis(DirectionType dir) {
 static void initAuto(AutoState *a) {
     *a->veh = SCRelay_Signal_Veh_AllocateToShield(START_SHIELD);
     for (int i = 0; i < sizeof(ALLAXIS) / sizeof(ALLAXIS[0]); i++) {
-        if(a->configOption.opt11 > 0){delay(a->configOption.opt11);}
         scanHelper(a->veh, *a->vehPos, ALLAXIS[i], a->scanMap, true, a->scanCounter, a->configOption);
         if (shouldStop(a)) return;
-        if(a->configOption.opt11 > 0){delay(a->configOption.opt11);}
         scanHelper(a->veh, *a->vehPos, ALLAXIS[i], a->scanMap, false, a->scanCounter, a->configOption);
         if(shouldStop(a)) {return;};
     }
@@ -107,13 +86,10 @@ static void stepAndScan(AutoState *a) {
     if (a->GGNOOBS) return;
     if(a->configOption.opt13 > 0){delay(a->configOption.opt13);}
     if(a->costLog[inFront].shield > 0) {*a->veh = SCRelay_Signal_Veh_AllocateToShield(a->costLog[inFront].shield);};
-    if(a->configOption.opt12 > 0){delay(a->configOption.opt12);}
     moveHelper(a->veh, a->vehPos, axis, a->costLog, a->scanMap, a->exploreMap, a->moveCounter, a->configOption);
 
     for (int i = 0; i < sizeof(ALLAXIS) / sizeof(ALLAXIS[0]); i++) {
-        if(a->configOption.opt11 > 0){delay(a->configOption.opt11);}
         scanHelper(a->veh, *a->vehPos, ALLAXIS[i], a->scanMap, true, a->scanCounter, a->configOption);
-        if(a->configOption.opt11 > 0){delay(a->configOption.opt11);}
         scanHelper(a->veh, *a->vehPos, ALLAXIS[i], a->scanMap, false, a->scanCounter, a->configOption);
         if (ALLAXIS[i].x == 0 || ALLAXIS[i].y == 0) {
             for (int k = 1; k <= 2; k++) {
@@ -234,6 +210,7 @@ void autoRun(VehDataType *vehicleData, PosType *vehPos, terrainCostType terrainC
         .missionType = missionType, .facing = StartFace, .bound = {-1,-1,-1,-1}, 
         .flush = false, .GGNOOBS = false
     };
+    a.configOption.autoOn = true;
     if(missionType == 8) a.flush = true;
     initAuto(&a);
 
@@ -254,4 +231,5 @@ void autoRun(VehDataType *vehicleData, PosType *vehPos, terrainCostType terrainC
     }
     printf("Bounds -> top: %d  bottom: %d  left: %d  right: %d\n", a.bound.top, a.bound.bottom, a.bound.left, a.bound.right);
     printf("Bounds -> top: %d  bottom: %d  left: %d  right: %d\n", a.bound.fTop, a.bound.fBottom, a.bound.fLeft, a.bound.fRight);
+    a.configOption.autoOn = false;
 }

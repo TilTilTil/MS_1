@@ -113,24 +113,26 @@ void showUsageInstructions() {
 
         // Option chuck 1
         if(getValidChar("\n\n1. After every action, show vehicle status / energy stats (y/n): \n", "YN") == 'Y') {
-            configOption->opt2 = configOption->opt3 = configOption->opt4 = true;
+            configOption->opt2 = !configOption->opt2;
+            configOption->opt3 = !configOption->opt3;
+            configOption->opt4 = !configOption->opt4;
         } else {
             if(getValidChar("\n2. After every scan action, show vehicle status / energy stats (y/n): \n", "YN") == 'N') {
-                configOption->opt2 = false;
+                configOption->opt2 = !configOption->opt2;
             }
             if(getValidChar("\n3. After every move action, show vehicle status / energy stats (y/n): \n", "YN") == 'N') {
-                configOption->opt3 = false;
+                configOption->opt3 = !configOption->opt3;
             }
             if(getValidChar("\n4. After every shield allocation, show vehicle status / energy stats (y/n): \n", "YN") == 'N') {
-                configOption->opt4 = false;
+                configOption->opt4 = !configOption->opt4;
             }
         }
         // option chuck 2
         if(getValidChar("\n5. After every scan action, display 'current map' of terrain scanned by vehicle so far (y/n): \n", "YN") == 'N') {
-            configOption->opt5 = false;
+            configOption->opt5 = !configOption->opt5;
         }
         if(getValidChar("\n6. After every move action, display 'current map' of terrain travelled by vehicle so far (y/n): \n", "YN") == 'N') {
-            configOption->opt6 = false;
+            configOption->opt6 = !configOption->opt6;
         }
         printf("\n7. Enter 't1' secs delay, after displaying vehicle status / energy stats: \n");
         configOption->opt7 = getValidLongHelper();
@@ -207,7 +209,8 @@ int main() {
         .opt14 = ENERGY_LIMIT,
         .opt15 = SHIELD_LIMIT,
         .opt16 = MOVE_LIMIT,
-        .opt17 = SCAN_LIMIT
+        .opt17 = SCAN_LIMIT,
+        .autoOn = false
     };    
     char answer = '\0';
     bool radiusBoolOne = true;          //default use case is 1

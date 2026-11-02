@@ -46,6 +46,7 @@ void scanHelper(VehDataType *vehicleData, PosType vehPos, PosType localPos, char
     int step = radiusBoolOne ? 1 : 2;
     if(scanMap[vehPos.y + localPos.y * step][vehPos.x + localPos.x * step] == '\0') {
         if(configOption.opt2){statusHelper(vehicleData, configOption);};
+        if(configOption.opt11 > 0 && configOption.autoOn){delay(configOption.opt11);}
         char value = performScan(vehicleData, localPos, radiusBoolOne);
         printf("Returned (scanned) terrain symbol is : %c", value);
         (*Counter)++;
@@ -61,6 +62,7 @@ void moveHelper(VehDataType *vehicleData, PosType *vehPos, PosType localPos, ter
             int startEnergyCost = vehicleData->currEnergy;
             int startShieldCost = vehicleData->currShieldEnergy;
             if(configOption.opt3){statusHelper(vehicleData, configOption);};
+            if(configOption.opt12 > 0 && configOption.autoOn){delay(configOption.opt12);}
             performMove(vehicleData, localPos);
             vehPos->y = vehPos->y + localPos.y;
             vehPos->x = vehPos->x + localPos.x;
@@ -76,6 +78,7 @@ void moveHelper(VehDataType *vehicleData, PosType *vehPos, PosType localPos, ter
             int startEnergyCost = vehicleData->currEnergy;
             int startShieldCost = vehicleData->currShieldEnergy;
             if(configOption.opt3){statusHelper(vehicleData, configOption);};
+            if(configOption.opt12 > 0 && configOption.autoOn){delay(configOption.opt12);}
             performMove(vehicleData, localPos);
             vehPos->y = vehPos->y + localPos.y;
             vehPos->x = vehPos->x + localPos.x;

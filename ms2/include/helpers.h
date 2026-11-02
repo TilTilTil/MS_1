@@ -33,6 +33,7 @@ typedef struct {
     long opt15;
     int opt16;
     int opt17;
+    bool autoOn;
 }Option;
 
 char getValidChar(const char *prompt, const char *validChars);
