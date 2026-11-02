@@ -60,10 +60,10 @@ CMakeFiles/project.dir/src/main.c.o: /home/jon/main/ms2/src/main.c \
  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
  /home/jon/main/ms2/include/SatComRelay.h \
  /home/jon/main/ms2/include/mapMake.h /home/jon/main/ms2/include/config.h \
- /home/jon/main/ms2/include/vehControl.h \
- /home/jon/main/ms2/include/SatComRelay.h \
- /home/jon/main/ms2/include/mapMake.h \
  /home/jon/main/ms2/include/helpers.h \
+ /home/jon/main/ms2/include/SatComRelay.h \
+ /home/jon/main/ms2/include/vehControl.h \
+ /home/jon/main/ms2/include/mapMake.h \
  /home/jon/main/ms2/include/helpers.h \
  /home/jon/main/ms2/include/autoControl.h \
  /home/jon/main/ms2/include/vehControl.h

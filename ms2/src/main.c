@@ -289,7 +289,7 @@ int main() {
             break;
         case 'C':
             PosType origin = {.x = 0,.y = 0};
-            printMapScan(scanMap, vehPos, origin, '\0');
+            printMapScan(scanMap, vehPos, origin, configOption, '\0');
             break;
         case 'X':
             printMapStatic(exploreMap,vehPos);

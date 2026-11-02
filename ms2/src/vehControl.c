@@ -51,7 +51,7 @@ void scanHelper(VehDataType *vehicleData, PosType vehPos, PosType localPos, char
         printf("Returned (scanned) terrain symbol is : %c", value);
         (*Counter)++;
         localPos = multiplyPos(localPos,step);
-        if(configOption.opt5){printMapScan(scanMap, vehPos, localPos, value);if(configOption.opt8 > 0){delay(configOption.opt8);}};    
+        printMapScan(scanMap, vehPos, localPos, configOption, value);if(configOption.opt8 > 0){delay(configOption.opt8);}  
     }
 }
 
@@ -69,7 +69,7 @@ void moveHelper(VehDataType *vehicleData, PosType *vehPos, PosType localPos, ter
             terrainCostLog[value].energy = startEnergyCost - vehicleData->currEnergy;
             terrainCostLog[value].shield = startShieldCost - vehicleData->currShieldEnergy;
             terrainCostLog[value].totalCost = terrainCostLog[value].energy + terrainCostLog[value].shield;
-            if(configOption.opt6){printMapExplore(exploreMap, *vehPos, value);if(configOption.opt9 > 0){delay(configOption.opt9);}};
+            printMapExplore(exploreMap, *vehPos, configOption, value);if(configOption.opt9 > 0){delay(configOption.opt9);}
             (*Counter)++;
         } else {
             printf("Cannot move! Border detected.\n");
@@ -85,7 +85,7 @@ void moveHelper(VehDataType *vehicleData, PosType *vehPos, PosType localPos, ter
             terrainCostLog[scanMap[vehPos->y][vehPos->x]].energy = startEnergyCost - vehicleData->currEnergy;
             terrainCostLog[scanMap[vehPos->y][vehPos->x]].shield = startShieldCost - vehicleData->currShieldEnergy;
             terrainCostLog[scanMap[vehPos->y][vehPos->x]].totalCost = terrainCostLog[scanMap[vehPos->y][vehPos->x]].energy + terrainCostLog[scanMap[vehPos->y][vehPos->x]].shield;
-            if(configOption.opt6){printMapExplore(exploreMap, *vehPos, scanMap[vehPos->y][vehPos->x]);if(configOption.opt9 > 0){delay(configOption.opt9);}};
+            printMapExplore(exploreMap, *vehPos, configOption, scanMap[vehPos->y][vehPos->x]);if(configOption.opt9 > 0){delay(configOption.opt9);}
             (*Counter)++;
     } else {
         printf("Cannot move! Border detected.\n");

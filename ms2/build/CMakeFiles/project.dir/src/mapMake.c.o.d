@@ -22,4 +22,8 @@ CMakeFiles/project.dir/src/mapMake.c.o: /home/jon/main/ms2/src/mapMake.c \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
- /home/jon/main/ms2/include/mapMake.h /home/jon/main/ms2/include/config.h
+ /home/jon/main/ms2/include/mapMake.h /home/jon/main/ms2/include/config.h \
+ /home/jon/main/ms2/include/helpers.h \
+ /home/jon/main/ms2/include/SatComRelay.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
+ /home/jon/main/ms2/include/helpers.h

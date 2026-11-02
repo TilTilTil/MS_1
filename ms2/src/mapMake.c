@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "mapMake.h"
+#include "helpers.h"
 
 void mapMake(char map[HEIGHT][WIDTH]) {
     for (int i = 0; i < HEIGHT; i++) {
@@ -9,13 +10,14 @@ void mapMake(char map[HEIGHT][WIDTH]) {
     }
 }
 
-void printMapScan(char map[HEIGHT][WIDTH], PosType vehPos, PosType localPos, char value) {
+void printMapScan(char map[HEIGHT][WIDTH], PosType vehPos, PosType localPos, Option configOption, char value) {
     printf("\n================================\n");
     printf("          SCANNED MAP             \n");
     printf("================================\n\n");
     if(value != '\0') {
         map[vehPos.y + localPos.y][vehPos.x + localPos.x] = value;        
     }
+    if(!configOption.opt5) return;
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {
             if (i == vehPos.y && j == vehPos.x) {
@@ -33,14 +35,15 @@ void printMapScan(char map[HEIGHT][WIDTH], PosType vehPos, PosType localPos, cha
     }
 }
 
-void printMapExplore(char map[HEIGHT][WIDTH], PosType vehPos, char value) {
+void printMapExplore(char map[HEIGHT][WIDTH], PosType vehPos, Option configOption, char value) {
     printf("\n================================\n");
     printf("          EXPLORED MAP          \n");
     printf("================================\n\n");
     map[vehPos.y][vehPos.x] = value;
+    if(!configOption.opt6) return;
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {
-            if(i == vehPos.y && j == vehPos.x || value == '\0') {
+            if(i == vehPos.y && j == vehPos.x && value == '\0') {
                 printf("\033[4m \033[0m");
             }
             else if (i == vehPos.y && j == vehPos.x) {
@@ -66,7 +69,7 @@ void printMapStatic(char map[HEIGHT][WIDTH], PosType vehPos) {
         for (int j = 0; j < WIDTH; j++) {
             if(map[i][j] == '\0' && i == vehPos.y && j == vehPos.x) {
                 printf("\033[4m \033[0m");
-            } else if (map[i][j] == '\0' && map[i][j] == '\1') {
+            } else if (map[i][j] == '\0' || map[i][j] == '\1') {
                 putchar(' ');
             } else if(i == vehPos.y && j == vehPos.x) {
                 printf("\033[4m%c\033[0m", map[vehPos.y][vehPos.x]);
