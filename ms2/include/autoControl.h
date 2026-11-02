@@ -43,8 +43,8 @@ typedef struct {
     int missionType;
     bool  flush;
     bool GGNOOBS;
-    bool eVisited[HEIGHT][WIDTH];
-    int  eVisitedCount;
+    // bool eVisited[HEIGHT][WIDTH];
+    // int  eVisitedCount;
 } AutoState;
 
 void autoRun(

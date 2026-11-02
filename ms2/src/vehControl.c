@@ -45,9 +45,9 @@ static PosType multiplyPos(PosType pos, int multiplier) {
 void scanHelper(VehDataType *vehicleData, PosType vehPos, PosType localPos, char scanMap[HEIGHT][WIDTH], bool radiusBoolOne, int *Counter, Option configOption) {
     int step = radiusBoolOne ? 1 : 2;
     if(scanMap[vehPos.y + localPos.y * step][vehPos.x + localPos.x * step] == '\0') {
-        if(configOption.opt2){statusHelper(vehicleData, configOption);};
         if(configOption.opt11 > 0 && configOption.autoOn){delay(configOption.opt11);}
         char value = performScan(vehicleData, localPos, radiusBoolOne);
+        if(configOption.opt2){statusHelper(vehicleData, configOption);};
         printf("Returned (scanned) terrain symbol is : %c", value);
         (*Counter)++;
         localPos = multiplyPos(localPos,step);
@@ -58,12 +58,12 @@ void scanHelper(VehDataType *vehicleData, PosType vehPos, PosType localPos, char
 void moveHelper(VehDataType *vehicleData, PosType *vehPos, PosType localPos, terrainCostType terrainCostLog[256], char scanMap[HEIGHT][WIDTH], char exploreMap[HEIGHT][WIDTH], int *Counter, Option configOption) {
     if(scanMap[vehPos->y + localPos.y][vehPos->x + localPos.x] == '\0') {
         char value = performScan(vehicleData, localPos, true);
-        if(value != '#') {
+        if(value != '#' && value != FILL) {
             int startEnergyCost = vehicleData->currEnergy;
             int startShieldCost = vehicleData->currShieldEnergy;
-            if(configOption.opt3){statusHelper(vehicleData, configOption);};
             if(configOption.opt12 > 0 && configOption.autoOn){delay(configOption.opt12);}
             performMove(vehicleData, localPos);
+            if(configOption.opt3){statusHelper(vehicleData, configOption);};
             vehPos->y = vehPos->y + localPos.y;
             vehPos->x = vehPos->x + localPos.x;
             terrainCostLog[value].energy = startEnergyCost - vehicleData->currEnergy;
@@ -74,12 +74,12 @@ void moveHelper(VehDataType *vehicleData, PosType *vehPos, PosType localPos, ter
         } else {
             printf("Cannot move! Border detected.\n");
         }
-    } else if (scanMap[vehPos->y + localPos.y][vehPos->x + localPos.x] != '#') {
+    } else if (scanMap[vehPos->y + localPos.y][vehPos->x + localPos.x] != '#' && scanMap[vehPos->y + localPos.y][vehPos->x + localPos.x] != FILL) {
             int startEnergyCost = vehicleData->currEnergy;
             int startShieldCost = vehicleData->currShieldEnergy;
-            if(configOption.opt3){statusHelper(vehicleData, configOption);};
             if(configOption.opt12 > 0 && configOption.autoOn){delay(configOption.opt12);}
             performMove(vehicleData, localPos);
+            if(configOption.opt3){statusHelper(vehicleData, configOption);};
             vehPos->y = vehPos->y + localPos.y;
             vehPos->x = vehPos->x + localPos.x;
             terrainCostLog[scanMap[vehPos->y][vehPos->x]].energy = startEnergyCost - vehicleData->currEnergy;

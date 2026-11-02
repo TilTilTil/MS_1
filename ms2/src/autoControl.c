@@ -229,7 +229,7 @@ void autoRun(VehDataType *vehicleData, PosType *vehPos, terrainCostType terrainC
         chooseFacingDir(&a);
         runToWall(&a);
     }
-    printf("Bounds -> top: %d  bottom: %d  left: %d  right: %d\n", a.bound.top, a.bound.bottom, a.bound.left, a.bound.right);
-    printf("Bounds -> top: %d  bottom: %d  left: %d  right: %d\n", a.bound.fTop, a.bound.fBottom, a.bound.fLeft, a.bound.fRight);
+    // printf("Bounds -> top: %d  bottom: %d  left: %d  right: %d\n", a.bound.top, a.bound.bottom, a.bound.left, a.bound.right);
+    // printf("Bounds -> top: %d  bottom: %d  left: %d  right: %d\n", a.bound.fTop, a.bound.fBottom, a.bound.fLeft, a.bound.fRight);
     a.configOption.autoOn = false;
 }

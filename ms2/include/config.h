@@ -33,7 +33,7 @@
 #define DELAY_AFTER_AUTOPILOT_SHIELD          0      // OPT13 (t7)
 
 #define ENERGY_LIMIT    77777   // OPT14 (n1)
-#define SHIELD_LIMIT    7000    // OPT15 (n2)
+#define SHIELD_LIMIT    2222    // OPT15 (n2)
 #define MOVE_LIMIT      200     // OPT16 (n3)
 #define SCAN_LIMIT      500     // OPT17 (n4)
 
