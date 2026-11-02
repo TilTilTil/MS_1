@@ -305,10 +305,10 @@ CMakeFiles/project.dir/src/main.c.o: ../src/main.c \
   ../include/SatComRelay.h \
   ../include/mapMake.h \
   ../include/config.h \
-  ../include/vehControl.h \
-  ../include/SatComRelay.h \
-  ../include/mapMake.h \
   ../include/helpers.h \
+  ../include/SatComRelay.h \
+  ../include/vehControl.h \
+  ../include/mapMake.h \
   ../include/helpers.h \
   ../include/autoControl.h \
   ../include/vehControl.h
@@ -340,7 +340,11 @@ CMakeFiles/project.dir/src/mapMake.c.o: ../src/mapMake.c \
   /usr/include/x86_64-linux-gnu/bits/floatn.h \
   /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
   ../include/mapMake.h \
-  ../include/config.h
+  ../include/config.h \
+  ../include/helpers.h \
+  ../include/SatComRelay.h \
+  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
+  ../include/helpers.h
 
 CMakeFiles/project.dir/src/vehControl.c.o: ../src/vehControl.c \
   /usr/include/stdc-predef.h \

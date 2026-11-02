@@ -33,6 +33,7 @@ void printMapScan(char map[HEIGHT][WIDTH], PosType vehPos, PosType localPos, Opt
         }
         putchar('\n');
     }
+    if(configOption.opt8 > 0){delay(configOption.opt8);}  
 }
 
 void printMapExplore(char map[HEIGHT][WIDTH], PosType vehPos, Option configOption, char value) {
@@ -59,6 +60,7 @@ void printMapExplore(char map[HEIGHT][WIDTH], PosType vehPos, Option configOptio
         }
         putchar('\n');
     }
+    if(configOption.opt9 > 0){delay(configOption.opt9);}
 }
 
 void printMapStatic(char map[HEIGHT][WIDTH], PosType vehPos) {
