@@ -1,5 +1,5 @@
 CMakeFiles/project.dir/src/autoControl.c.o: \
- /home/jon/MS_1/ms2/src/autoControl.c /usr/include/stdc-predef.h \
+ /home/jon/main/ms2/src/autoControl.c /usr/include/stdc-predef.h \
  /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -53,17 +53,17 @@ CMakeFiles/project.dir/src/autoControl.c.o: \
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
- /home/jon/MS_1/ms2/include/vehControl.h \
- /home/jon/MS_1/ms2/include/config.h \
+ /home/jon/main/ms2/include/vehControl.h \
+ /home/jon/main/ms2/include/config.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
- /home/jon/MS_1/ms2/include/SatComRelay.h \
- /home/jon/MS_1/ms2/include/mapMake.h \
- /home/jon/MS_1/ms2/include/helpers.h \
- /home/jon/MS_1/ms2/include/SatComRelay.h \
- /home/jon/MS_1/ms2/include/mapMake.h \
- /home/jon/MS_1/ms2/include/helpers.h \
- /home/jon/MS_1/ms2/include/autoControl.h \
- /home/jon/MS_1/ms2/include/vehControl.h \
- /home/jon/MS_1/ms2/include/config.h \
- /home/jon/MS_1/ms2/include/condtionHandle.h \
- /home/jon/MS_1/ms2/include/autoControl.h
+ /home/jon/main/ms2/include/SatComRelay.h \
+ /home/jon/main/ms2/include/mapMake.h \
+ /home/jon/main/ms2/include/helpers.h \
+ /home/jon/main/ms2/include/SatComRelay.h \
+ /home/jon/main/ms2/include/mapMake.h \
+ /home/jon/main/ms2/include/helpers.h \
+ /home/jon/main/ms2/include/autoControl.h \
+ /home/jon/main/ms2/include/vehControl.h \
+ /home/jon/main/ms2/include/config.h \
+ /home/jon/main/ms2/include/condtionHandle.h \
+ /home/jon/main/ms2/include/autoControl.h

@@ -1,4 +1,4 @@
-# Install script for directory: /home/jon/MS_1/ms2
+# Install script for directory: /home/jon/main/ms2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/jon/MS_1/ms2/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/jon/main/ms2/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

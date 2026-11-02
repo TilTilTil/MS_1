@@ -19,7 +19,6 @@ static void stepDir(AutoState *a, PosType axis) {
     char next = a->scanMap[a->vehPos->y + axis.y][a->vehPos->x + axis.x];
     if(a->configOption.opt13 >= 0){delay(a->configOption.opt13);}
     *a->veh = SCRelay_Signal_Veh_AllocateToShield(a->costLog[next].shield);
-    if(a->configOption.opt12 >= 0){delay(a->configOption.opt12);}
     moveHelper(a->veh, a->vehPos, axis, a->costLog, a->scanMap, a->exploreMap, a->moveCounter, a->configOption);
 }
 
@@ -140,7 +139,7 @@ static void addMoreMoves( AutoState *a) {
     printf("\nIncrease your limit then!\n");
     printf("Current steps --> %d\n", *a->moveCounter);
     printf("Your current limit: %d\n", a->configOption.opt16);
-    a->configOption.opt16 = getValidLongHelper();
+    a->configOption.opt16 = getValidIntHelper();
 }
 
 static bool checkScan( AutoState *a) {
@@ -151,7 +150,7 @@ static void addMoreScans( AutoState *a) {
     printf("\nIncrease your limit then!\n");
     printf("Current scans --> %d\n", *a->scanCounter);
     printf("Your current limit: %d\n", a->configOption.opt17);
-    a->configOption.opt17 = getValidLongHelper();
+    a->configOption.opt17 = getValidIntHelper();
 }
 
 static const Condition missionStatement[] = {

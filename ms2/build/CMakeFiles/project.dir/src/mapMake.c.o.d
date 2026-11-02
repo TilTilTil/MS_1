@@ -1,4 +1,4 @@
-CMakeFiles/project.dir/src/mapMake.c.o: /home/jon/MS_1/ms2/src/mapMake.c \
+CMakeFiles/project.dir/src/mapMake.c.o: /home/jon/main/ms2/src/mapMake.c \
  /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -22,4 +22,4 @@ CMakeFiles/project.dir/src/mapMake.c.o: /home/jon/MS_1/ms2/src/mapMake.c \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
- /home/jon/MS_1/ms2/include/mapMake.h /home/jon/MS_1/ms2/include/config.h
+ /home/jon/main/ms2/include/mapMake.h /home/jon/main/ms2/include/config.h

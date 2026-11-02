@@ -1,4 +1,4 @@
-CMakeFiles/project.dir/src/main.c.o: /home/jon/MS_1/ms2/src/main.c \
+CMakeFiles/project.dir/src/main.c.o: /home/jon/main/ms2/src/main.c \
  /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -58,12 +58,12 @@ CMakeFiles/project.dir/src/main.c.o: /home/jon/MS_1/ms2/src/main.c \
  /usr/include/x86_64-linux-gnu/bits/time.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
- /home/jon/MS_1/ms2/include/SatComRelay.h \
- /home/jon/MS_1/ms2/include/mapMake.h /home/jon/MS_1/ms2/include/config.h \
- /home/jon/MS_1/ms2/include/vehControl.h \
- /home/jon/MS_1/ms2/include/SatComRelay.h \
- /home/jon/MS_1/ms2/include/mapMake.h \
- /home/jon/MS_1/ms2/include/helpers.h \
- /home/jon/MS_1/ms2/include/helpers.h \
- /home/jon/MS_1/ms2/include/autoControl.h \
- /home/jon/MS_1/ms2/include/vehControl.h
+ /home/jon/main/ms2/include/SatComRelay.h \
+ /home/jon/main/ms2/include/mapMake.h /home/jon/main/ms2/include/config.h \
+ /home/jon/main/ms2/include/vehControl.h \
+ /home/jon/main/ms2/include/SatComRelay.h \
+ /home/jon/main/ms2/include/mapMake.h \
+ /home/jon/main/ms2/include/helpers.h \
+ /home/jon/main/ms2/include/helpers.h \
+ /home/jon/main/ms2/include/autoControl.h \
+ /home/jon/main/ms2/include/vehControl.h

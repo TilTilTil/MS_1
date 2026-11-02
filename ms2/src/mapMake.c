@@ -40,7 +40,7 @@ void printMapExplore(char map[HEIGHT][WIDTH], PosType vehPos, char value) {
     map[vehPos.y][vehPos.x] = value;
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {
-            if(i == vehPos.y && j == vehPos.x && value == '\0') {
+            if(i == vehPos.y && j == vehPos.x || value == '\0') {
                 printf("\033[4m \033[0m");
             }
             else if (i == vehPos.y && j == vehPos.x) {

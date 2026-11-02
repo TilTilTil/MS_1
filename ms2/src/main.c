@@ -113,57 +113,57 @@ void showUsageInstructions() {
 
         // Option chuck 1
         if(getValidChar("\n\n1. After every action, show vehicle status / energy stats (y/n): \n", "YN") == 'Y') {
-            configOption->opt2 = !configOption->opt2;
-            configOption->opt3 = !configOption->opt3;
-            configOption->opt4 = !configOption->opt4;
+            configOption->opt2 = true;
+            configOption->opt3 = true;
+            configOption->opt4 = true;
         } else {
             if(getValidChar("\n2. After every scan action, show vehicle status / energy stats (y/n): \n", "YN") == 'N') {
-                configOption->opt2 = !configOption->opt2;
-            }
+                configOption->opt2 = false;
+            } else { configOption->opt2 = true;}
             if(getValidChar("\n3. After every move action, show vehicle status / energy stats (y/n): \n", "YN") == 'N') {
-                configOption->opt3 = !configOption->opt3;
-            }
+                configOption->opt3 = false;
+            } else { configOption->opt3 = true;}
             if(getValidChar("\n4. After every shield allocation, show vehicle status / energy stats (y/n): \n", "YN") == 'N') {
-                configOption->opt4 = !configOption->opt4;
-            }
+                configOption->opt4 = false;
+            } else { configOption->opt4 = true;}
         }
         // option chuck 2
         if(getValidChar("\n5. After every scan action, display 'current map' of terrain scanned by vehicle so far (y/n): \n", "YN") == 'N') {
-            configOption->opt5 = !configOption->opt5;
-        }
+            configOption->opt5 = false;
+        } else { configOption->opt5 = true;}
         if(getValidChar("\n6. After every move action, display 'current map' of terrain travelled by vehicle so far (y/n): \n", "YN") == 'N') {
-            configOption->opt6 = !configOption->opt6;
-        }
+            configOption->opt6 = false;
+        } else { configOption->opt6 = true;}
         printf("\n7. Enter 't1' secs delay, after displaying vehicle status / energy stats: \n");
-        configOption->opt7 = getValidLongHelper();
+        configOption->opt7 = getValidIntHelper();
         printf("\n8. Enter 't2' secs delay, after displaying 'current map' of terrain scanned: \n");
-        configOption->opt8 = getValidLongHelper();
+        configOption->opt8 = getValidIntHelper();
         printf("\n9. Enter 't3' secs delay, after displaying 'current map' of terrain travelled: \n");
-        configOption->opt9 = getValidLongHelper();
+        configOption->opt9 = getValidIntHelper();
 
         //option chuck 3
         printf("10. Enter 't4' secs delay, after any action taken by auto-pilot function: \n");
-        configOption->opt10 = getValidLongHelper();
+        configOption->opt10 = getValidIntHelper();
         if(configOption->opt10 > 0) {
             configOption->opt11 = configOption->opt12 = configOption->opt13 = configOption->opt10;
         } else {
             printf("\n11. Enter 't5' secs delay, after each scan action taken by auto-pilot function: \n");
-            configOption->opt11 = getValidLongHelper();
+            configOption->opt11 = getValidIntHelper();
             printf("\n12. Enter 't6' secs delay, after each move taken by auto-pilot function: \n");
-            configOption->opt12 = getValidLongHelper();
+            configOption->opt12 = getValidIntHelper();
             printf("\n13. Enter 't7' secs delay, after each shield allocation action taken by auto-pilot function: \n");
-            configOption->opt13 = getValidLongHelper();
+            configOption->opt13 = getValidIntHelper();
         }
 
         //option chunk 4
-        printf("\n7. Enter 'n1' Pause auto pilot when current energy avaliable falls below: \n");
+        printf("\n14. Enter 'n1' Pause auto pilot when current energy avaliable falls below: \n");
         configOption->opt14 = getValidLongHelper();
-        printf("\n7. Enter 'n2' Pause auto pilot when current shield avaliable falls below: \n");
-        configOption->opt15 = getValidLongHelper();
-        printf("\n7. Enter 'n3' Pause auto pilot when total number of move exceeds: \n");
-        configOption->opt16 = getValidLongHelper();
-        printf("\n7. Enter 'n4' Pause auto pilot when total number of scans exceeds: \n");
-        configOption->opt17 = getValidLongHelper();
+        printf("\n15. Enter 'n2' Pause auto pilot when current shield avaliable falls below: \n");
+        configOption->opt15 = getValidLongHelper();     
+        printf("\n16. Enter 'n3' Pause auto pilot when total number of move exceeds: \n");
+        configOption->opt16 = getValidIntHelper();
+        printf("\n17. Enter 'n4' Pause auto pilot when total number of scans exceeds: \n");
+        configOption->opt17 = getValidIntHelper();
 
         printf("\n--- Configuration Summary ---\n");
         printf("Option 1 (All Status): %d\n", configOption->opt1);

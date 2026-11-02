@@ -40,7 +40,9 @@ char getValidChar(const char *prompt, const char *validChars);
 
 long getValidLongHelper();
 
-void delay(long number_of_seconds);
+int getValidIntHelper();
+
+void delay(int number_of_seconds);
 
 void statusHelper(VehDataType *vehicleData, Option configOption );
 

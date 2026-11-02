@@ -14,7 +14,7 @@
 #define NUM_DANGER      100
 #define DANGER_POINT    'X'
 
-#define START_FACE      DIR_NORTH;
+#define START_FACE      DIR_NORTH
 
 //Default for configuring Auto
 #define SHOW_STATUS_AFTER_ANY_ACTION    true   // OPT1
